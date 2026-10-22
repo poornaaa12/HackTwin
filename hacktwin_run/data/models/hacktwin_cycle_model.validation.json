@@ -1,0 +1,31 @@
+{
+  "model_version": "hacktwin-extratrees-log-groupcv-1",
+  "algorithm": "scikit-learn ExtraTreesRegressor on log1p(cycles)",
+  "dataset": "/Users/cow/Desktop/EOC-2 - Copy/hacktwin_run/data/github_workloads/training_data.jsonl",
+  "sample_count": 103,
+  "program_group_count": 21,
+  "validation_method": "25% holdout and 5-fold GroupKFold by SHA-256 program hash",
+  "holdout": {
+    "mae_cycles": 391.067,
+    "median_absolute_error_cycles": 137.077,
+    "r2": 0.0779,
+    "median_baseline_mae_cycles": 518.69,
+    "validation_program_groups": 6
+  },
+  "group_cross_validation": {
+    "mae_cycles": 439.507,
+    "median_absolute_error_cycles": 220.607,
+    "r2": -0.0856,
+    "median_baseline_mae_cycles": 513.194,
+    "folds": 5,
+    "validation_program_groups": 21
+  },
+  "cv_absolute_error_p90_cycles": 1081.178,
+  "target": "simulated cycles until a repeated terminal self-loop PC pattern",
+  "limitations": [
+    "Cycle target is specific to the supplied Hack CPU HDL and Hardware Simulator semantics.",
+    "Predictions are estimates for workloads drawn from similar public nand2tetris projects.",
+    "A lower MAE than the median baseline is evidence of predictive value; otherwise use the baseline and collect more diverse programs."
+  ],
+  "model_file": "/Users/cow/Desktop/EOC-2 - Copy/hacktwin_run/data/models/hacktwin_cycle_model.joblib"
+}

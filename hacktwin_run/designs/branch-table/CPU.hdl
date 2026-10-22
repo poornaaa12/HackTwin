@@ -1,0 +1,51 @@
+// HackTwin design variant "branch-table".
+// Derived from designs/1/CPU.hdl. Datapath, registers and timing are
+// unchanged. The branch unit is reorganised as a table lookup: the three
+// jump bits j1 j2 j3 (instruction[2..0]) index an 8-way multiplexer whose
+// inputs are the eight Hack jump conditions computed from the ALU flags:
+//   000 never  001 JGT  010 JEQ  011 JGE  100 JLT  101 JNE  110 JLE  111 JMP
+// The decode is explicit (one named signal per condition) instead of the
+// baseline's AND/OR reduction. Same Hack semantics; no timing claim.
+
+CHIP CPU {
+
+    IN  inM[16],         // M value input  (M = contents of RAM[A])
+        instruction[16], // Instruction for execution
+        reset;           // Restart the current program when 1
+
+    OUT outM[16],        // M value output
+        writeM,          // Write to M?
+        addressM[15],    // Address in data memory (of M)
+        pc[15];          // address of next instruction
+
+    PARTS:
+    /** Instruction class decode **/
+    Not(in=instruction[15], out=isA);
+    Not(in=isA, out=isC);
+
+    /** A register: loaded by A-instructions or C-instructions with dest A **/
+    And(a=isC, b=instruction[5], out=destA);
+    Or(a=isA, b=destA, out=loadA);
+    Mux16(a=aluout, b=instruction, sel=isA, out=toA);
+    ARegister(in=toA, load=loadA, out=aout, out[0..14]=addressM);
+
+    /** ALU and D register **/
+    Mux16(a=aout, b=inM, sel=instruction[12], out=yin);
+    ALU(x=dout, y=yin, zx=instruction[11], nx=instruction[10], zy=instruction[9],
+        ny=instruction[8], f=instruction[7], no=instruction[6],
+        out=aluout, out=outM, zr=zr, ng=ng);
+    And(a=isC, b=instruction[4], out=loadD);
+    DRegister(in=aluout, load=loadD, out=dout);
+    And(a=isC, b=instruction[3], out=writeM);
+
+    /** Branch condition table **/
+    Or(a=zr, b=ng, out=le);
+    Not(in=le, out=gt);
+    Not(in=ng, out=ge);
+    Not(in=zr, out=ne);
+    Mux8Way(a=false, b=gt, c=zr, d=ge, e=ng, f=ne, g=le, h=true,
+            sel=instruction[0..2], out=cond);
+    And(a=isC, b=cond, out=jump);
+    Not(in=jump, out=advance);
+    PC(in=aout, load=jump, inc=advance, reset=reset, out[0..14]=pc);
+}

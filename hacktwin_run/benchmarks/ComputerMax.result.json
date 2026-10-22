@@ -1,0 +1,5 @@
+{
+  "output_file": "ComputerMax.out",
+  "memory_address": 2,
+  "_comment": "Max.hack computes max(RAM[0], RAM[1]) and writes it to RAM[2]."
+}

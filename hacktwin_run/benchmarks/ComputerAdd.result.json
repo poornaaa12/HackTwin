@@ -1,0 +1,5 @@
+{
+  "output_file": "ComputerAdd.out",
+  "memory_address": 0,
+  "_comment": "Add.hack computes 2+3 and writes the result (5) to RAM[0]."
+}

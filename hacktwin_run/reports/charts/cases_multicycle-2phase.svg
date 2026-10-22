@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 794" font-family="sans-serif" font-size="12">
+<rect width="760" height="794" fill="#fcfcfb"/><text x="12" y="20" font-size="14" font-weight="600" fill="#0b0b0b">Per-case speedup: multicycle-2phase vs baseline</text>
+<text x="222" y="48" text-anchor="end" fill="#52514e">add</text>
+<rect x="230" y="37" width="200.0" height="16" rx="3" fill="#2a78d6"/>
+<text x="436.0" y="48" fill="#52514e">0.500</text>
+<text x="222" y="72" text-anchor="end" fill="#52514e">arrayfill-0</text>
+<rect x="230" y="61" width="200.0" height="16" rx="3" fill="#2a78d6"/>
+<text x="436.0" y="72" fill="#52514e">0.500</text>
+<text x="222" y="96" text-anchor="end" fill="#52514e">arrayfill-1</text>
+<rect x="230" y="85" width="200.0" height="16" rx="3" fill="#2a78d6"/>
+<text x="436.0" y="96" fill="#52514e">0.500</text>
+<text x="222" y="120" text-anchor="end" fill="#52514e">arrayfill-16</text>
+<rect x="230" y="109" width="200.0" height="16" rx="3" fill="#2a78d6"/>
+<text x="436.0" y="120" fill="#52514e">0.500</text>
+<text x="222" y="144" text-anchor="end" fill="#52514e">arraysum-0</text>
+<rect x="230" y="133" width="200.0" height="16" rx="3" fill="#2a78d6"/>
+<text x="436.0" y="144" fill="#52514e">0.500</text>
+<text x="222" y="168" text-anchor="end" fill="#52514e">arraysum-16</text>
+<rect x="230" y="157" width="200.0" height="16" rx="3" fill="#2a78d6"/>
+<text x="436.0" y="168" fill="#52514e">0.500</text>
+<text x="222" y="192" text-anchor="end" fill="#52514e">arraysum-8</text>
+<rect x="230" y="181" width="200.0" height="16" rx="3" fill="#2a78d6"/>
+<text x="436.0" y="192" fill="#52514e">0.500</text>
+<text x="222" y="216" text-anchor="end" fill="#52514e">bubblesort-1</text>
+<rect x="230" y="205" width="200.0" height="16" rx="3" fill="#2a78d6"/>
+<text x="436.0" y="216" fill="#52514e">0.500</text>
+<text x="222" y="240" text-anchor="end" fill="#52514e">bubblesort-6</text>
+<rect x="230" y="229" width="200.0" height="16" rx="3" fill="#2a78d6"/>
+<text x="436.0" y="240" fill="#52514e">0.500</text>
+<text x="222" y="264" text-anchor="end" fill="#52514e">bubblesort-8-rev</text>
+<rect x="230" y="253" width="200.0" height="16" rx="3" fill="#2a78d6"/>
+<text x="436.0" y="264" fill="#52514e">0.500</text>
+<text x="222" y="288" text-anchor="end" fill="#52514e">div-100-7</text>
+<rect x="230" y="277" width="200.0" height="16" rx="3" fill="#2a78d6"/>
+<text x="436.0" y="288" fill="#52514e">0.500</text>
+<text x="222" y="312" text-anchor="end" fill="#52514e">div-1000-3</text>
+<rect x="230" y="301" width="200.0" height="16" rx="3" fill="#2a78d6"/>
+<text x="436.0" y="312" fill="#52514e">0.500</text>
+<text x="222" y="336" text-anchor="end" fill="#52514e">div-17-5</text>
+<rect x="230" y="325" width="200.0" height="16" rx="3" fill="#2a78d6"/>
+<text x="436.0" y="336" fill="#52514e">0.500</text>
+<text x="222" y="360" text-anchor="end" fill="#52514e">div-4-9</text>
+<rect x="230" y="349" width="200.0" height="16" rx="3" fill="#2a78d6"/>
+<text x="436.0" y="360" fill="#52514e">0.500</text>
+<text x="222" y="384" text-anchor="end" fill="#52514e">fib-0</text>
+<rect x="230" y="373" width="200.0" height="16" rx="3" fill="#2a78d6"/>
+<text x="436.0" y="384" fill="#52514e">0.500</text>
+<text x="222" y="408" text-anchor="end" fill="#52514e">fib-1</text>
+<rect x="230" y="397" width="200.0" height="16" rx="3" fill="#2a78d6"/>
+<text x="436.0" y="408" fill="#52514e">0.500</text>
+<text x="222" y="432" text-anchor="end" fill="#52514e">fib-10</text>
+<rect x="230" y="421" width="200.0" height="16" rx="3" fill="#2a78d6"/>
+<text x="436.0" y="432" fill="#52514e">0.500</text>
+<text x="222" y="456" text-anchor="end" fill="#52514e">fib-20</text>
+<rect x="230" y="445" width="200.0" height="16" rx="3" fill="#2a78d6"/>
+<text x="436.0" y="456" fill="#52514e">0.500</text>
+<text x="222" y="480" text-anchor="end" fill="#52514e">max-23456-12345</text>
+<rect x="230" y="469" width="200.0" height="16" rx="3" fill="#2a78d6"/>
+<text x="436.0" y="480" fill="#52514e">0.500</text>
+<text x="222" y="504" text-anchor="end" fill="#52514e">max-3-5</text>
+<rect x="230" y="493" width="200.0" height="16" rx="3" fill="#2a78d6"/>
+<text x="436.0" y="504" fill="#52514e">0.500</text>
+<text x="222" y="528" text-anchor="end" fill="#52514e">max-9-9</text>
+<rect x="230" y="517" width="200.0" height="16" rx="3" fill="#2a78d6"/>
+<text x="436.0" y="528" fill="#52514e">0.500</text>
+<text x="222" y="552" text-anchor="end" fill="#52514e">mult-0-7</text>
+<rect x="230" y="541" width="200.0" height="16" rx="3" fill="#2a78d6"/>
+<text x="436.0" y="552" fill="#52514e">0.500</text>
+<text x="222" y="576" text-anchor="end" fill="#52514e">mult-12-11</text>
+<rect x="230" y="565" width="200.0" height="16" rx="3" fill="#2a78d6"/>
+<text x="436.0" y="576" fill="#52514e">0.500</text>
+<text x="222" y="600" text-anchor="end" fill="#52514e">mult-25-40</text>
+<rect x="230" y="589" width="200.0" height="16" rx="3" fill="#2a78d6"/>
+<text x="436.0" y="600" fill="#52514e">0.500</text>
+<text x="222" y="624" text-anchor="end" fill="#52514e">mult-3-5</text>
+<rect x="230" y="613" width="200.0" height="16" rx="3" fill="#2a78d6"/>
+<text x="436.0" y="624" fill="#52514e">0.500</text>
+<text x="222" y="648" text-anchor="end" fill="#52514e">mult-7-0</text>
+<rect x="230" y="637" width="200.0" height="16" rx="3" fill="#2a78d6"/>
+<text x="436.0" y="648" fill="#52514e">0.500</text>
+<text x="222" y="672" text-anchor="end" fill="#52514e">rect-16</text>
+<rect x="230" y="661" width="200.0" height="16" rx="3" fill="#2a78d6"/>
+<text x="436.0" y="672" fill="#52514e">0.500</text>
+<text x="222" y="696" text-anchor="end" fill="#52514e">rect-4</text>
+<rect x="230" y="685" width="200.0" height="16" rx="3" fill="#2a78d6"/>
+<text x="436.0" y="696" fill="#52514e">0.500</text>
+<text x="222" y="720" text-anchor="end" fill="#52514e">sumn-0</text>
+<rect x="230" y="709" width="200.0" height="16" rx="3" fill="#2a78d6"/>
+<text x="436.0" y="720" fill="#52514e">0.500</text>
+<text x="222" y="744" text-anchor="end" fill="#52514e">sumn-10</text>
+<rect x="230" y="733" width="200.0" height="16" rx="3" fill="#2a78d6"/>
+<text x="436.0" y="744" fill="#52514e">0.500</text>
+<text x="222" y="768" text-anchor="end" fill="#52514e">sumn-100</text>
+<rect x="230" y="757" width="200.0" height="16" rx="3" fill="#2a78d6"/>
+<text x="436.0" y="768" fill="#52514e">0.500</text>
+<line x1="630.0" x2="630.0" y1="30" y2="786" stroke="#52514e" stroke-dasharray="4 3"/>
+</svg>

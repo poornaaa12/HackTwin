@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HackTwin | Hack CPU Test Bench</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">Nand2Tetris · Hack CPU</p>
+      <h1>HackTwin</h1>
+      <p class="header-subtitle">A test bench for comparing Hack CPU designs</p>
+    </div>
+    <div class="header-status"><span id="service-status" class="status-dot"></span><span id="status-text">Connecting to local twin…</span><button id="refresh-btn" class="button secondary">Refresh data</button></div>
+  </header>
+
+  <div class="layout">
+    <nav class="navigation" aria-label="Project guide">
+      <button class="nav-button active" data-view="overview">Purpose &amp; results</button>
+      <button class="nav-button" data-view="runs">Inspect a run</button>
+      <button class="nav-button" data-view="compare">Compare CPUs</button>
+      <button class="nav-button" data-view="predict">ML estimate</button>
+      <button class="nav-button" data-view="review">Trace review</button>
+      <p class="nav-note">Follow the tabs from top to bottom for a short project walkthrough.</p>
+    </nav>
+
+    <main>
+      <section class="view active" id="view-overview">
+        <p class="step-label">Start here · 1 of 5</p>
+        <h2>What is HackTwin for?</h2>
+        <p class="intro">HackTwin is a software test bench for nand2tetris Hack CPU designs. It runs the same small programs on different CPU HDL versions, checks the results, counts simulated clock steps, and saves traces so you can see what happened.</p>
+
+        <article class="panel purpose-panel">
+          <h3>In plain language</h3>
+          <p><b>Change a CPU design → run the same tests → check that answers stay correct → compare how many simulator steps each version used.</b></p>
+          <p class="muted">This project simulates HDL. It does not test a physical chip or measure real clock speed, power, or chip area.</p>
+        </article>
+
+        <div class="metrics">
+          <article class="metric"><span>CPU versions saved</span><strong id="stat-designs">—</strong></article>
+          <article class="metric"><span>Simulator executions</span><strong id="stat-runs">—</strong></article>
+          <article class="metric"><span>Test programs</span><strong id="stat-benchmarks">—</strong></article>
+        </div>
+        <p class="definition"><b>What those words mean:</b> a <i>design</i> is one CPU HDL version; a <i>test program</i> is a small Hack workload; a <i>run</i> is one execution of a test on one design; a <i>cycle</i> is one clock step in the simulator.</p>
+
+        <article class="panel">
+          <h3>What the current tests show</h3>
+          <div id="current-findings" class="findings">Loading the measured comparisons…</div>
+        </article>
+
+        <article class="panel model-overview">
+          <h3>Was the ML model trained?</h3>
+          <div id="model-overview">Checking the saved model and validation results…</div>
+        </article>
+
+        <article class="panel walkthrough">
+          <h3>How to follow the project</h3>
+          <ol>
+            <li><b>Inspect a run:</b> see one real simulator result and its trace.</li>
+            <li><b>Compare CPUs:</b> check outputs first, then compare cycle counts.</li>
+            <li><b>ML estimate:</b> see what the trained model learned and how reliable it is.</li>
+            <li><b>Trace review:</b> read suggested checks based on observed simulator data.</li>
+          </ol>
+        </article>
+      </section>
+
+      <section class="view" id="view-runs">
+        <p class="step-label">Project guide · 2 of 5</p>
+        <h2>Inspect one simulator run</h2>
+        <p class="intro">A run means one test program executed once on one CPU design. Here you can see its measured output, number of simulator steps, and the instruction trace captured during execution.</p>
+        <div class="toolbar"><label for="run-select">Choose a run</label><select id="run-select"></select></div>
+        <div id="run-summary" class="metrics compact"></div>
+        <p class="definition"><b>Trace key:</b> PC is the program-counter address of the instruction; A and D are CPU registers. Each row is an observation from the simulator, not a physical hardware measurement.</p>
+        <article class="panel"><h3>Instruction trace · first 100 rows</h3><div class="table-wrap trace-wrap"><table><thead><tr><th>Simulator step</th><th>Instruction address (PC)</th><th>Instruction</th><th>A register</th><th>D register</th></tr></thead><tbody id="trace-body"><tr><td colspan="5">Choose a run.</td></tr></tbody></table></div></article>
+      </section>
+
+      <section class="view" id="view-compare">
+        <p class="step-label">Project guide · 3 of 5</p>
+        <h2>Compare two CPU versions</h2>
+        <p class="intro">HackTwin compares the same test programs on both versions. First check whether their saved outputs agree. Then read the cycle counts: fewer cycles means fewer simulator steps for that test, but does not prove a faster physical chip.</p>
+        <div class="toolbar"><label for="design-a">First CPU version</label><select id="design-a"></select><label for="design-b">Second CPU version</label><select id="design-b"></select><button id="compare-btn" class="button">Compare these versions</button></div>
+        <article id="comparison-output" class="panel muted">Choose two CPU versions and compare them.</article>
+      </section>
+
+      <section class="view" id="view-predict">
+        <p class="step-label">Project guide · 4 of 5</p>
+        <h2>What does the ML model estimate?</h2>
+        <p class="intro">The model estimates how many simulator cycles a collected Hack program will take to reach a repeated terminal loop. This is a prediction before running that exact case; it is not the measured simulator result or a physical speed estimate.</p>
+        <article class="panel model-status" id="model-status">Checking the saved model…</article>
+        <article class="panel plain-explainer">
+          <h3>How it learned</h3>
+          <p>Public Hack programs were collected from GitHub. HackTwin ran eligible programs in its local Hardware Simulator with different starting RAM values, repeated the runs, and kept consistent cycle labels. The model learned from static program features and those simulator-generated labels.</p>
+          <p><b>Important limit:</b> training currently covers a small set of programs and programs that reach a recognizable loop. The validation error is wide, so use the estimate as a demonstration and confirm important results by simulation.</p>
+        </article>
+        <form id="predict-form" class="panel form-row">
+          <label>Collected program<select id="program-select" required></select><small>Only programs with simulator-generated training examples are listed.</small></label>
+          <label>Starting RAM[0]<input id="ram0-input" type="number" min="0" max="32767" value="0"></label>
+          <label>Starting RAM[1]<input id="ram1-input" type="number" min="0" max="32767" value="0"></label>
+          <button class="button" type="submit">Get an estimate</button>
+        </form>
+        <article id="prediction-output" class="panel muted">Choose a collected program and starting RAM values, then select “Get an estimate”.</article>
+      </section>
+
+      <section class="view" id="view-review">
+        <p class="step-label">Project guide · 5 of 5</p>
+        <h2>What should I inspect?</h2>
+        <p class="intro">These notes point out patterns in one saved simulator trace and suggest what to check next. They are clues for a human review, not proof of an HDL fault or guaranteed optimization.</p>
+        <div class="toolbar"><label for="review-run-select">Choose a simulator run</label><select id="review-run-select"></select></div>
+        <article id="review-output" class="panel muted">Choose a run to see trace-based review notes.</article>
+      </section>
+
+      <div id="app-error" class="error" role="alert" hidden></div>
+      <footer>HackTwin · Simulated results, trace observations, and ML estimates are identified separately.</footer>
+    </main>
+  </div>
+  <script src="app.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+{
+  "design_id": "2",
+  "display_name": "Jump-logic refactor",
+  "kind": "internal_variant",
+  "parent_design_id": "1",
+  "summary": "Pre-existing variant: the jump condition is computed from NOT zr AND NOT ng instead of NOT (zr OR ng). Logically equivalent; one more gate.",
+  "characteristics": {
+    "execution_model": "single-cycle (CPI = 1)",
+    "isa": "Hack (standard)",
+    "cycle_compatible_with_spec": true,
+    "changed_units": [
+      "CPU branch condition"
+    ],
+    "expected_cycle_effect": "none (combinational rewrite)"
+  },
+  "changes": [
+    "CPU.hdl: posout = And(Not zr, Not ng) instead of Not(Or(zr, ng)); jge/jmp combined in a different order."
+  ],
+  "limitations": [
+    "Its comments call this a 'fast-path' that reduces gate delay; the Hardware Simulator does not measure delay, so that claim is unverified."
+  ],
+  "provenance": {
+    "origin": "pre-existing HackTwin variant (designs/2)",
+    "method": "hand-written HDL (pre-existing)",
+    "derived_from": "1"
+  },
+  "schema_version": 1
+}

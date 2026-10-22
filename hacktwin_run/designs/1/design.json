@@ -1,0 +1,25 @@
+{
+  "design_id": "1",
+  "display_name": "Baseline (reference single-cycle Hack CPU)",
+  "kind": "baseline",
+  "parent_design_id": null,
+  "summary": "The project's reference Hack computer: single-cycle CPU (one instruction per clock), book ALU, two-RAM16K memory map. All other designs are measured against it.",
+  "characteristics": {
+    "execution_model": "single-cycle (CPI = 1)",
+    "isa": "Hack (standard)",
+    "cycle_compatible_with_spec": true,
+    "changed_units": [],
+    "expected_cycle_effect": "reference"
+  },
+  "changes": [],
+  "limitations": [
+    "Author of the original HDL is not recorded in the repository; comments credit Figure 5.9 of The Elements of Computing Systems.",
+    "Memory.hdl maps 0x0000-0x3FFF onto two RAM16K instances (each half used); behaviour matches the Hack memory map."
+  ],
+  "provenance": {
+    "origin": "pre-existing HackTwin baseline (designs/1)",
+    "method": "hand-written HDL (pre-existing)",
+    "derived_from": null
+  },
+  "schema_version": 1
+}

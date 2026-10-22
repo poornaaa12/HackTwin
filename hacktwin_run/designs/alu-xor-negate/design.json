@@ -1,0 +1,30 @@
+{
+  "design_id": "alu-xor-negate",
+  "display_name": "ALU: XOR inversion and AND-mask zeroing",
+  "kind": "internal_variant",
+  "parent_design_id": "1",
+  "summary": "Same Hack ALU function, different gate organisation: zeroing with an AND mask, conditional negation with XOR against the control bit, zero detection in a separate Zero16 chip. CPU unchanged.",
+  "characteristics": {
+    "execution_model": "single-cycle (CPI = 1)",
+    "isa": "Hack (standard)",
+    "cycle_compatible_with_spec": true,
+    "changed_units": [
+      "ALU"
+    ],
+    "expected_cycle_effect": "none (combinational reorganisation)"
+  },
+  "changes": [
+    "ALU.hdl: Mux16(x,0,zx) -> And16(x, NOT zx broadcast)",
+    "ALU.hdl: Not16+Mux16 negation -> Xor16Bit (16 XOR gates against nx/ny/no)",
+    "New chips Xor16Bit.hdl and Zero16.hdl"
+  ],
+  "limitations": [
+    "Removes 6 Mux16 and 3 Not16 parts but adds 48 one-bit Xor parts; whether this is smaller or faster in real hardware depends on the gate library and is not measured here."
+  ],
+  "provenance": {
+    "origin": "HackTwin-authored variant (2026-10-21)",
+    "method": "hand-written HDL",
+    "derived_from": "1"
+  },
+  "schema_version": 1
+}

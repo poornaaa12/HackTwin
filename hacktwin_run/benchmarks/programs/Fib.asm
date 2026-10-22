@@ -1,0 +1,41 @@
+// HackTwin benchmark workload (HackTwin-authored).
+// RAM[1] = fib(RAM[0]) with fib(0) = 0, fib(1) = 1, iterative.
+    @a
+    M=0
+    @b
+    M=1
+    @R0
+    D=M
+    @n
+    M=D
+(LOOP)
+    @n
+    D=M
+    @DONE
+    D;JEQ
+    @a
+    D=M
+    @b
+    D=D+M
+    @t
+    M=D
+    @b
+    D=M
+    @a
+    M=D
+    @t
+    D=M
+    @b
+    M=D
+    @n
+    M=M-1
+    @LOOP
+    0;JMP
+(DONE)
+    @a
+    D=M
+    @R1
+    M=D
+(END)
+    @END
+    0;JMP

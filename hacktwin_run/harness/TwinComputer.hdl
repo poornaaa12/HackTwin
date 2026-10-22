@@ -1,0 +1,24 @@
+// HackTwin instrumented harness (HackTwin-authored; not part of any design).
+//
+// Same wiring as the Hack Computer chip (ROM32K -> CPU <-> Memory), but the
+// CPU bus is exposed as output pins so a .tst output-list can record, every
+// cycle, signals that the official Computer chip keeps internal:
+//   pc           address of the instruction being presented
+//   instruction  ROM32K[pc] (the instruction about to execute)
+//   writeM       1 when this instruction writes RAM at the next clock edge
+//   addressM     the address it reads or writes (A register, 15 bits)
+//   outM         the value it would write
+//   inM          RAM[addressM] as seen by the CPU this cycle
+// The CPU and Memory chips come from the design under test.
+
+CHIP TwinComputer {
+    IN reset;
+    OUT pc[15], instruction[16], writeM, addressM[15], outM[16], inM[16];
+
+    PARTS:
+    ROM32K(address=pcbus, out=instr, out=instruction);
+    CPU(inM=memout, instruction=instr, reset=reset,
+        outM=outbus, outM=outM, writeM=wbus, writeM=writeM,
+        addressM=abus, addressM=addressM, pc=pcbus, pc=pc);
+    Memory(in=outbus, load=wbus, address=abus, out=memout, out=inM);
+}

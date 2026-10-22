@@ -1,0 +1,16 @@
+{
+  "run_id": "2__ComputerRect__r1",
+  "design_id": "2",
+  "benchmark_id": "ComputerRect",
+  "cmd": "cmd /c call c:\\Users\\sudhe\\OneDrive\\Desktop\\SEM-3\\EOC-2 - Copy\\nand2tetris\\tools\\HardwareSimulator.bat C:\\Users\\sudhe\\OneDrive\\Desktop\\SEM-3\\EOC-2 - Copy\\hacktwin_run\\data\\raw_runs\\2__ComputerRect__r1\\_scratch\\ComputerRect.tst",
+  "started_at": 1786806116.104,
+  "returncode": 0,
+  "stdout_tail": "End of script - Comparison ended successfully\n",
+  "stderr_tail": "",
+  "comparison_ok": true,
+  "elapsed_s": 0.1880800724029541,
+  "out_files": [
+    "ComputerRect.out"
+  ],
+  "hdl_source_hash": "9bc6c58afd8aae5b"
+}

@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "suite_id": "hacktwin-core-v1",
+  "description": "Run-to-halt workloads executed through the TwinComputer harness. Expected values are written by hand from each program's specification and cross-checked against the hack_isa reference emulator by the test suite.",
+  "benchmarks": [
+    {
+      "benchmark_id": "add", "title": "Add (2 + 3)", "program": "Add.hack", "source": null,
+      "origin": "nand2tetris Project 5 official test program (Add.hack, binary only)",
+      "description": "Straight-line code: computes 2 + 3 and stores it in RAM[0]. Has no terminal loop; completion is arrival at the first address past the program.",
+      "cases": [{"case_id": "add", "inputs": {}, "expected": {"0": 5}}]
+    },
+    {
+      "benchmark_id": "max", "title": "Max of two values", "program": "Max.hack", "source": null,
+      "origin": "nand2tetris Project 5 official test program (Max.hack, binary only)",
+      "description": "RAM[2] = max(RAM[0], RAM[1]). One data-dependent branch.",
+      "cases": [
+        {"case_id": "max-3-5", "inputs": {"0": 3, "1": 5}, "expected": {"2": 5}},
+        {"case_id": "max-23456-12345", "inputs": {"0": 23456, "1": 12345}, "expected": {"2": 23456}},
+        {"case_id": "max-9-9", "inputs": {"0": 9, "1": 9}, "expected": {"2": 9}}
+      ]
+    },
+    {
+      "benchmark_id": "rect", "title": "Rect (screen fill)", "program": "Rect.hack", "source": null,
+      "origin": "nand2tetris Project 5 official test program (Rect.hack, binary only)",
+      "description": "Draws RAM[0] rows of a 16-pixel-wide rectangle: SCREEN[32*i] = -1. Results live in screen memory, which the harness cannot probe directly, so they are checked against the observed write bus.",
+      "cases": [
+        {"case_id": "rect-4", "inputs": {"0": 4}, "expected": {"16384": -1, "16416": -1, "16448": -1, "16480": -1}},
+        {"case_id": "rect-16", "inputs": {"0": 16}, "expected": {"16384": -1, "16416": -1, "16448": -1, "16480": -1, "16512": -1, "16544": -1, "16576": -1, "16608": -1, "16640": -1, "16672": -1, "16704": -1, "16736": -1, "16768": -1, "16800": -1, "16832": -1, "16864": -1}}
+      ]
+    },
+    {
+      "benchmark_id": "mult", "title": "Multiply (repeated addition)", "program": "programs/Mult.hack", "source": "programs/Mult.asm",
+      "origin": "HackTwin-authored workload",
+      "description": "RAM[2] = RAM[0] * RAM[1] by RAM[1] additions. Loop-dominated.",
+      "cases": [
+        {"case_id": "mult-3-5", "inputs": {"0": 3, "1": 5}, "expected": {"2": 15}},
+        {"case_id": "mult-0-7", "inputs": {"0": 0, "1": 7}, "expected": {"2": 0}},
+        {"case_id": "mult-12-11", "inputs": {"0": 12, "1": 11}, "expected": {"2": 132}},
+        {"case_id": "mult-25-40", "inputs": {"0": 25, "1": 40}, "expected": {"2": 1000}},
+        {"case_id": "mult-7-0", "inputs": {"0": 7, "1": 0}, "expected": {"2": 0}}
+      ]
+    },
+    {
+      "benchmark_id": "sumn", "title": "Sum 1..n", "program": "programs/SumN.hack", "source": "programs/SumN.asm",
+      "origin": "HackTwin-authored workload",
+      "description": "RAM[1] = 1 + 2 + ... + RAM[0].",
+      "cases": [
+        {"case_id": "sumn-0", "inputs": {"0": 0}, "expected": {"1": 0}},
+        {"case_id": "sumn-10", "inputs": {"0": 10}, "expected": {"1": 55}},
+        {"case_id": "sumn-100", "inputs": {"0": 100}, "expected": {"1": 5050}}
+      ]
+    },
+    {
+      "benchmark_id": "fib", "title": "Fibonacci (iterative)", "program": "programs/Fib.hack", "source": "programs/Fib.asm",
+      "origin": "HackTwin-authored workload",
+      "description": "RAM[1] = fib(RAM[0]) with fib(0)=0, fib(1)=1. Several memory temporaries per iteration.",
+      "cases": [
+        {"case_id": "fib-0", "inputs": {"0": 0}, "expected": {"1": 0}},
+        {"case_id": "fib-1", "inputs": {"0": 1}, "expected": {"1": 1}},
+        {"case_id": "fib-10", "inputs": {"0": 10}, "expected": {"1": 55}},
+        {"case_id": "fib-20", "inputs": {"0": 20}, "expected": {"1": 6765}}
+      ]
+    },
+    {
+      "benchmark_id": "div", "title": "Integer division", "program": "programs/Div.hack", "source": "programs/Div.asm",
+      "origin": "HackTwin-authored workload",
+      "description": "RAM[2] = RAM[0] / RAM[1], RAM[3] = RAM[0] % RAM[1] by repeated subtraction.",
+      "cases": [
+        {"case_id": "div-17-5", "inputs": {"0": 17, "1": 5}, "expected": {"2": 3, "3": 2}},
+        {"case_id": "div-100-7", "inputs": {"0": 100, "1": 7}, "expected": {"2": 14, "3": 2}},
+        {"case_id": "div-4-9", "inputs": {"0": 4, "1": 9}, "expected": {"2": 0, "3": 4}},
+        {"case_id": "div-1000-3", "inputs": {"0": 1000, "1": 3}, "expected": {"2": 333, "3": 1}}
+      ]
+    },
+    {
+      "benchmark_id": "arraysum", "title": "Array sum", "program": "programs/ArraySum.hack", "source": "programs/ArraySum.asm",
+      "origin": "HackTwin-authored workload",
+      "description": "RAM[2] = sum of RAM[0] words starting at address RAM[1]. Pointer-chasing loop.",
+      "cases": [
+        {"case_id": "arraysum-8", "inputs": {"0": 8, "1": 100, "100": 3, "101": 1, "102": 4, "103": 1, "104": 5, "105": 9, "106": 2, "107": 6}, "expected": {"2": 31}},
+        {"case_id": "arraysum-0", "inputs": {"0": 0, "1": 100}, "expected": {"2": 0}},
+        {"case_id": "arraysum-16", "inputs": {"0": 16, "1": 200, "200": 1, "201": 2, "202": 3, "203": 4, "204": 5, "205": 6, "206": 7, "207": 8, "208": 9, "209": 10, "210": 11, "211": 12, "212": 13, "213": 14, "214": 15, "215": 16}, "expected": {"2": 136}}
+      ]
+    },
+    {
+      "benchmark_id": "arrayfill", "title": "Array fill (memset)", "program": "programs/ArrayFill.hack", "source": "programs/ArrayFill.asm",
+      "origin": "HackTwin-authored workload",
+      "description": "RAM[100 .. 100+RAM[0]-1] = RAM[1]. Write-dominated loop.",
+      "cases": [
+        {"case_id": "arrayfill-16", "inputs": {"0": 16, "1": 7}, "expected": {"100": 7, "101": 7, "102": 7, "103": 7, "104": 7, "105": 7, "106": 7, "107": 7, "108": 7, "109": 7, "110": 7, "111": 7, "112": 7, "113": 7, "114": 7, "115": 7}},
+        {"case_id": "arrayfill-1", "inputs": {"0": 1, "1": -3}, "expected": {"100": -3}},
+        {"case_id": "arrayfill-0", "inputs": {"0": 0, "1": 5}, "expected": {"100": 0}}
+      ]
+    },
+    {
+      "benchmark_id": "bubblesort", "title": "Bubble sort", "program": "programs/BubbleSort.hack", "source": "programs/BubbleSort.asm",
+      "origin": "HackTwin-authored workload",
+      "description": "Sorts RAM[100 .. 100+RAM[0]-1] ascending. Nested loops with a data-dependent swap.",
+      "cases": [
+        {"case_id": "bubblesort-6", "inputs": {"0": 6, "100": 5, "101": 2, "102": 9, "103": 1, "104": 7, "105": 3}, "expected": {"100": 1, "101": 2, "102": 3, "103": 5, "104": 7, "105": 9}},
+        {"case_id": "bubblesort-8-rev", "inputs": {"0": 8, "100": 8, "101": 7, "102": 6, "103": 5, "104": 4, "105": 3, "106": 2, "107": 1}, "expected": {"100": 1, "101": 2, "102": 3, "103": 4, "104": 5, "105": 6, "106": 7, "107": 8}},
+        {"case_id": "bubblesort-1", "inputs": {"0": 1, "100": 42}, "expected": {"100": 42}}
+      ]
+    }
+  ],
+  "conformance_tests": [
+    {"test_name": "CPU", "tst": "projects/05/CPU.tst", "scope": "CPU", "cycle_exact": true},
+    {"test_name": "CPU-external", "tst": "projects/05/CPU-external.tst", "scope": "CPU", "cycle_exact": true},
+    {"test_name": "ALU", "tst": "projects/02/ALU.tst", "scope": "ALU", "cycle_exact": false},
+    {"test_name": "ComputerAdd", "tst": "projects/05/ComputerAdd.tst", "scope": "Computer", "cycle_exact": true},
+    {"test_name": "ComputerMax", "tst": "projects/05/ComputerMax.tst", "scope": "Computer", "cycle_exact": true},
+    {"test_name": "ComputerRect", "tst": "projects/05/ComputerRect.tst", "scope": "Computer", "cycle_exact": true}
+  ],
+  "excluded_conformance_tests": [
+    {"test_name": "Memory", "reason": "projects/05/Memory.tst waits for interactive keyboard input and never finishes in batch mode."}
+  ]
+}

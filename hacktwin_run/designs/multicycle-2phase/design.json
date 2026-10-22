@@ -1,0 +1,29 @@
+{
+  "design_id": "multicycle-2phase",
+  "display_name": "Two-phase multi-cycle CPU (CPI = 2)",
+  "kind": "internal_variant",
+  "parent_design_id": "1",
+  "summary": "Every instruction takes a decode cycle and a commit cycle, controlled by a one-bit phase register. Program-level results are identical; every program takes twice as many cycles. Included as a positive control for the measurement pipeline.",
+  "characteristics": {
+    "execution_model": "multi-cycle (CPI = 2)",
+    "isa": "Hack (standard)",
+    "cycle_compatible_with_spec": false,
+    "changed_units": [
+      "CPU control (phase register)"
+    ],
+    "expected_cycle_effect": "exactly 2x cycles on every workload"
+  },
+  "changes": [
+    "CPU.hdl: DFF phase register; A, D, M writes and PC updates gated by phase = 1"
+  ],
+  "limitations": [
+    "Not cycle-compatible with the Hack CPU specification: cycle-exact official tests (CPU.tst, Computer*.tst) fail by design.",
+    "A real two-cycle design would usually allow a shorter clock period; the simulator cannot show that, so only the cycle-count cost is visible."
+  ],
+  "provenance": {
+    "origin": "HackTwin-authored variant (2026-10-21)",
+    "method": "hand-written HDL",
+    "derived_from": "1"
+  },
+  "schema_version": 1
+}

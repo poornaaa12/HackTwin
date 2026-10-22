@@ -1,0 +1,16 @@
+{
+  "run_id": "1__ComputerMax__r0",
+  "design_id": "1",
+  "benchmark_id": "ComputerMax",
+  "cmd": "cmd /c call c:\\Users\\sudhe\\OneDrive\\Desktop\\SEM-3\\EOC-2 - Copy\\nand2tetris\\tools\\HardwareSimulator.bat C:\\Users\\sudhe\\OneDrive\\Desktop\\SEM-3\\EOC-2 - Copy\\hacktwin_run\\data\\raw_runs\\1__ComputerMax__r0\\_scratch\\ComputerMax.tst",
+  "started_at": 1786806114.10816,
+  "returncode": 0,
+  "stdout_tail": "End of script - Comparison ended successfully\n",
+  "stderr_tail": "",
+  "comparison_ok": true,
+  "elapsed_s": 0.21381926536560059,
+  "out_files": [
+    "ComputerMax.out"
+  ],
+  "hdl_source_hash": "38dbe7ab17f6eec4"
+}

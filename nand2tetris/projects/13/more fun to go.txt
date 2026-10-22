@@ -1,0 +1,4 @@
+$env:LINKEDIN_EMAIL = "sudheeswarreddy81@gmail.com"
+$env:LINKEDIN_PASSWORD = "1234sS@06"
+$env:GMAIL_EMAIL = "sudheeswarreddy81@gmail.com"
+$env:GMAIL_APP_PASSWORD = "1234sS@062007"

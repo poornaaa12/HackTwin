@@ -1,0 +1,6 @@
+.DS_Store
+__MACOSX/
+.claude/
+__pycache__/
+*.pyc
+node_modules/

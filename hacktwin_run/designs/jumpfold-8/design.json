@@ -1,0 +1,34 @@
+{
+  "design_id": "jumpfold-8",
+  "display_name": "Jump folding, 8-entry table",
+  "kind": "internal_variant",
+  "parent_design_id": "1",
+  "summary": "Dynamic jump folding: after seeing '@L; 0;JMP' once, the CPU loads PC = L together with A when it next fetches that @L, skipping the 0;JMP cycle. Uses an 8-entry direct-mapped table (RAM8) indexed by pc[0..2].",
+  "characteristics": {
+    "execution_model": "single-cycle with jump folding (CPI <= 1)",
+    "isa": "Hack (standard)",
+    "cycle_compatible_with_spec": "only until the first folded jump",
+    "changed_units": [
+      "CPU PC control",
+      "fold table (RAM8)",
+      "history registers"
+    ],
+    "expected_cycle_effect": "one cycle saved per repeated unconditional jump after an A-instruction"
+  },
+  "changes": [
+    "CPU.hdl: prevpc register, prevA/prevreset DFFs, learn and fold logic",
+    "RAM8 fold table (valid bit + 15-bit tag)",
+    "New chips IsUncondJump.hdl and TagMatch.hdl"
+  ],
+  "limitations": [
+    "Assumes instruction memory does not change while running (true for ROM32K).",
+    "Only the canonical encoding 1110101010000111 (0;JMP) is folded; conditional jumps and other unconditional encodings are not.",
+    "Adds roughly 50 built-in part instances and puts a table lookup in front of the PC update; delay and area are not measured."
+  ],
+  "provenance": {
+    "origin": "HackTwin-authored variant (2026-10-21)",
+    "method": "hand-written HDL",
+    "derived_from": "1"
+  },
+  "schema_version": 1
+}

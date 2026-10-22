@@ -1,0 +1,71 @@
+// HackTwin design variant "multicycle-2phase".
+// Derived from designs/1/CPU.hdl. Every instruction takes two clock cycles:
+//   phase 0 (fetch/decode): the instruction is presented and decoded; no
+//                           architectural state changes;
+//   phase 1 (execute/commit): A, D, M and PC are updated exactly as in the
+//                           single-cycle baseline.
+// A one-bit phase register (DFF) alternates 0,1,0,1...; reset forces phase 0.
+// This is the organisation a Hack CPU would need if instruction memory were
+// synchronous (registered output) or if the datapath were split across two
+// cycles. It is ISA-compatible at the program level (same results, same
+// memory writes in the same order) but NOT cycle-compatible with the Hack
+// CPU specification, so cycle-exact official tests (CPU.tst, Computer*.tst)
+// are expected to fail. It is included as a positive control: a design whose
+// cycle count must differ (CPI = 2) if the measurement pipeline works.
+
+CHIP CPU {
+
+    IN  inM[16],         // M value input  (M = contents of RAM[A])
+        instruction[16], // Instruction for execution
+        reset;           // Restart the current program when 1
+
+    OUT outM[16],        // M value output
+        writeM,          // Write to M?
+        addressM[15],    // Address in data memory (of M)
+        pc[15];          // address of next instruction
+
+    PARTS:
+    /** Phase register: 0 = decode, 1 = commit **/
+    Not(in=phase, out=notphase);
+    Not(in=reset, out=notreset);
+    And(a=notphase, b=notreset, out=nextphase);
+    DFF(in=nextphase, out=phase);
+
+    /** Instruction class decode **/
+    Not(in=instruction[15], out=isA);
+    Not(in=isA, out=isC);
+
+    /** A register (commit phase only) **/
+    And(a=isC, b=instruction[5], out=destA);
+    Or(a=isA, b=destA, out=wantA);
+    And(a=wantA, b=phase, out=loadA);
+    Mux16(a=aluout, b=instruction, sel=isA, out=toA);
+    ARegister(in=toA, load=loadA, out=aout, out[0..14]=addressM);
+
+    /** ALU and D register (commit phase only) **/
+    Mux16(a=aout, b=inM, sel=instruction[12], out=yin);
+    ALU(x=dout, y=yin, zx=instruction[11], nx=instruction[10], zy=instruction[9],
+        ny=instruction[8], f=instruction[7], no=instruction[6],
+        out=aluout, out=outM, zr=zr, ng=ng);
+    And(a=isC, b=instruction[4], out=wantD);
+    And(a=wantD, b=phase, out=loadD);
+    DRegister(in=aluout, load=loadD, out=dout);
+
+    /** Memory write (commit phase only) **/
+    And(a=isC, b=instruction[3], out=wantM);
+    And(a=wantM, b=phase, out=writeM);
+
+    /** Program counter: advances only in the commit phase **/
+    Or(a=zr, b=ng, out=le);
+    Not(in=le, out=gt);
+    And(a=instruction[0], b=gt, out=jgt);
+    And(a=instruction[1], b=zr, out=jeq);
+    And(a=instruction[2], b=ng, out=jlt);
+    Or(a=jgt, b=jeq, out=jge);
+    Or(a=jge, b=jlt, out=cond);
+    And(a=isC, b=cond, out=wantjump);
+    And(a=wantjump, b=phase, out=jump);
+    Not(in=wantjump, out=nojump);
+    And(a=nojump, b=phase, out=advance);
+    PC(in=aout, load=jump, inc=advance, reset=reset, out[0..14]=pc);
+}

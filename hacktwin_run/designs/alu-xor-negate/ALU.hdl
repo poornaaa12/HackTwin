@@ -1,0 +1,40 @@
+// HackTwin design variant "alu-xor-negate".
+// Derived from designs/1/ALU.hdl. Same Hack ALU function (zx nx zy ny f no),
+// different gate organisation:
+//   * zeroing uses an AND mask (x AND NOT zx) instead of Mux16(x, 0, zx);
+//   * conditional bitwise negation uses XOR with the control bit broadcast
+//     (x XOR nx), instead of Not16 followed by Mux16;
+//   * the output negation (no) uses the same XOR scheme;
+//   * zero detection is factored into a design-local Zero16 chip.
+// No claim is made about delay or area; the simulator does not measure them.
+
+CHIP ALU {
+    IN
+        x[16], y[16],
+        zx, nx, zy, ny, f, no;
+
+    OUT
+        out[16],
+        zr,
+        ng;
+
+    PARTS:
+    Not(in=zx, out=keepx);
+    Not(in=zy, out=keepy);
+    And16(a=x, b[0]=keepx, b[1]=keepx, b[2]=keepx, b[3]=keepx, b[4]=keepx, b[5]=keepx,
+          b[6]=keepx, b[7]=keepx, b[8]=keepx, b[9]=keepx, b[10]=keepx, b[11]=keepx,
+          b[12]=keepx, b[13]=keepx, b[14]=keepx, b[15]=keepx, out=xz);
+    And16(a=y, b[0]=keepy, b[1]=keepy, b[2]=keepy, b[3]=keepy, b[4]=keepy, b[5]=keepy,
+          b[6]=keepy, b[7]=keepy, b[8]=keepy, b[9]=keepy, b[10]=keepy, b[11]=keepy,
+          b[12]=keepy, b[13]=keepy, b[14]=keepy, b[15]=keepy, out=yz);
+
+    Xor16Bit(in=xz, sel=nx, out=xn);
+    Xor16Bit(in=yz, sel=ny, out=yn);
+
+    Add16(a=xn, b=yn, out=sum);
+    And16(a=xn, b=yn, out=conj);
+    Mux16(a=conj, b=sum, sel=f, out=fout);
+
+    Xor16Bit(in=fout, sel=no, out=out, out=result, out[15]=ng);
+    Zero16(in=result, out=zr);
+}

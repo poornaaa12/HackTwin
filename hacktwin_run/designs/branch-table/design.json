@@ -1,0 +1,31 @@
+{
+  "design_id": "branch-table",
+  "display_name": "Branch unit as an 8-way condition table",
+  "kind": "internal_variant",
+  "parent_design_id": "1",
+  "summary": "The three jump bits index an 8:1 multiplexer over the eight Hack jump conditions (never, JGT, JEQ, JGE, JLT, JNE, JLE, JMP). Datapath and timing unchanged.",
+  "characteristics": {
+    "execution_model": "single-cycle (CPI = 1)",
+    "isa": "Hack (standard)",
+    "cycle_compatible_with_spec": true,
+    "changed_units": [
+      "CPU decode",
+      "CPU branch condition"
+    ],
+    "expected_cycle_effect": "none (combinational reorganisation)"
+  },
+  "changes": [
+    "CPU.hdl: jump condition = Mux8Way(conditions, sel=instruction[0..2])",
+    "CPU.hdl: instruction class decoded with Not instead of DMux",
+    "New chip Mux8Way.hdl (7 one-bit Mux)"
+  ],
+  "limitations": [
+    "A table-driven decode is easier to extend with new conditions, but the simulator gives no evidence about delay or area."
+  ],
+  "provenance": {
+    "origin": "HackTwin-authored variant (2026-10-21)",
+    "method": "hand-written HDL",
+    "derived_from": "1"
+  },
+  "schema_version": 1
+}

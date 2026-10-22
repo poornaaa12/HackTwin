@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 242" font-family="sans-serif" font-size="12">
+<rect width="760" height="242" fill="#fcfcfb"/><text x="12" y="20" font-size="14" font-weight="600" fill="#0b0b0b">Geometric-mean speedup vs baseline (core suite; dashed = 1.0)</text>
+<text x="222" y="48" text-anchor="end" fill="#52514e">#1 jumpfold-8</text>
+<rect x="230" y="37" width="400.0" height="16" rx="3" fill="#2a78d6"/>
+<text x="636.0" y="48" fill="#52514e">1.032</text>
+<text x="222" y="72" text-anchor="end" fill="#52514e">#2 jumpfold-1</text>
+<rect x="230" y="61" width="399.7" height="16" rx="3" fill="#2a78d6"/>
+<text x="635.7" y="72" fill="#52514e">1.032</text>
+<text x="222" y="96" text-anchor="end" fill="#52514e">#3 1</text>
+<rect x="230" y="85" width="387.4" height="16" rx="3" fill="#9a9893"/>
+<text x="623.4" y="96" fill="#52514e">1.000</text>
+<text x="222" y="120" text-anchor="end" fill="#52514e">#3 2</text>
+<rect x="230" y="109" width="387.4" height="16" rx="3" fill="#9a9893"/>
+<text x="623.4" y="120" fill="#52514e">1.000</text>
+<text x="222" y="144" text-anchor="end" fill="#52514e">#3 3</text>
+<rect x="230" y="133" width="387.4" height="16" rx="3" fill="#9a9893"/>
+<text x="623.4" y="144" fill="#52514e">1.000</text>
+<text x="222" y="168" text-anchor="end" fill="#52514e">#3 alu-xor-negate</text>
+<rect x="230" y="157" width="387.4" height="16" rx="3" fill="#9a9893"/>
+<text x="623.4" y="168" fill="#52514e">1.000</text>
+<text x="222" y="192" text-anchor="end" fill="#52514e">#3 branch-table</text>
+<rect x="230" y="181" width="387.4" height="16" rx="3" fill="#9a9893"/>
+<text x="623.4" y="192" fill="#52514e">1.000</text>
+<text x="222" y="216" text-anchor="end" fill="#52514e">#216 multicycle-2phase</text>
+<rect x="230" y="205" width="193.7" height="16" rx="3" fill="#eb6834"/>
+<text x="429.7" y="216" fill="#52514e">0.500</text>
+<line x1="617.4" x2="617.4" y1="30" y2="234" stroke="#52514e" stroke-dasharray="4 3"/>
+</svg>

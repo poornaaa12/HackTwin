@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 242" font-family="sans-serif" font-size="12">
+<rect width="760" height="242" fill="#fcfcfb"/><text x="12" y="20" font-size="14" font-weight="600" fill="#0b0b0b">GitHub HDL ingestion funnel</text>
+<text x="222" y="48" text-anchor="end" fill="#52514e">Repositories discovered</text>
+<rect x="230" y="37" width="400.0" height="16" rx="3" fill="#2a78d6"/>
+<text x="636.0" y="48" fill="#52514e">1346</text>
+<text x="222" y="72" text-anchor="end" fill="#52514e">Repositories retrieved</text>
+<rect x="230" y="61" width="100.7" height="16" rx="3" fill="#2a78d6"/>
+<text x="336.7" y="72" fill="#52514e">339</text>
+<text x="222" y="96" text-anchor="end" fill="#52514e">Candidate CPU folders</text>
+<rect x="230" y="85" width="102.2" height="16" rx="3" fill="#2a78d6"/>
+<text x="338.2" y="96" fill="#52514e">344</text>
+<text x="222" y="120" text-anchor="end" fill="#52514e">Structurally valid</text>
+<rect x="230" y="109" width="88.0" height="16" rx="3" fill="#2a78d6"/>
+<text x="324.0" y="120" fill="#52514e">296</text>
+<text x="222" y="144" text-anchor="end" fill="#52514e">Unique (not duplicates)</text>
+<rect x="230" y="133" width="70.1" height="16" rx="3" fill="#2a78d6"/>
+<text x="306.1" y="144" fill="#52514e">236</text>
+<text x="222" y="168" text-anchor="end" fill="#52514e">Simulator-compatible</text>
+<rect x="230" y="157" width="63.3" height="16" rx="3" fill="#2a78d6"/>
+<text x="299.3" y="168" fill="#52514e">213</text>
+<text x="222" y="192" text-anchor="end" fill="#52514e">Correct on all tests</text>
+<rect x="230" y="181" width="61.8" height="16" rx="3" fill="#2a78d6"/>
+<text x="297.8" y="192" fill="#52514e">208</text>
+<text x="222" y="216" text-anchor="end" fill="#52514e">Complete & comparable</text>
+<rect x="230" y="205" width="61.8" height="16" rx="3" fill="#2a78d6"/>
+<text x="297.8" y="216" fill="#52514e">208</text>
+</svg>

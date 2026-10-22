@@ -1,0 +1,12 @@
+// HackTwin design variant "alu-xor-negate": out = 1 iff in == 0.
+
+CHIP Zero16 {
+    IN in[16];
+    OUT out;
+
+    PARTS:
+    Or8Way(in=in[0..7], out=lowany);
+    Or8Way(in=in[8..15], out=highany);
+    Or(a=lowany, b=highany, out=any);
+    Not(in=any, out=out);
+}

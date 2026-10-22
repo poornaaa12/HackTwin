@@ -1,0 +1,29 @@
+// HackTwin benchmark workload (HackTwin-authored).
+// RAM[100] .. RAM[100 + RAM[0] - 1] = RAM[1]   (memset)
+    @100
+    D=A
+    @p
+    M=D
+    @R0
+    D=M
+    @n
+    M=D
+(LOOP)
+    @n
+    D=M
+    @END
+    D;JEQ
+    @R1
+    D=M
+    @p
+    A=M
+    M=D
+    @p
+    M=M+1
+    @n
+    M=M-1
+    @LOOP
+    0;JMP
+(END)
+    @END
+    0;JMP

@@ -1,0 +1,25 @@
+// HackTwin jump-folding support: out = 1 iff instruction == 1110101010000111
+// (the canonical "0;JMP": comp 0, no destination, unconditional jump).
+
+CHIP IsUncondJump {
+    IN instruction[16];
+    OUT out;
+
+    PARTS:
+    // A bit mismatches when it is 0 where 1 is required, or 1 where 0 is.
+    Not(in=instruction[0], out=m0);
+    Not(in=instruction[1], out=m1);
+    Not(in=instruction[2], out=m2);
+    Not(in=instruction[7], out=m7);
+    Not(in=instruction[9], out=m9);
+    Not(in=instruction[11], out=m11);
+    Not(in=instruction[13], out=m13);
+    Not(in=instruction[14], out=m14);
+    Not(in=instruction[15], out=m15);
+    Or8Way(in[0]=m0, in[1]=m1, in[2]=m2, in[3]=instruction[3], in[4]=instruction[4],
+           in[5]=instruction[5], in[6]=instruction[6], in[7]=m7, out=lowmiss);
+    Or8Way(in[0]=instruction[8], in[1]=m9, in[2]=instruction[10], in[3]=m11,
+           in[4]=instruction[12], in[5]=m13, in[6]=m14, in[7]=m15, out=highmiss);
+    Or(a=lowmiss, b=highmiss, out=miss);
+    Not(in=miss, out=out);
+}

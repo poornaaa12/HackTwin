@@ -1,0 +1,63 @@
+// HackTwin benchmark workload (HackTwin-authored).
+// Sorts RAM[100] .. RAM[100 + RAM[0] - 1] ascending (bubble sort).
+// Values must be small enough that x - y does not overflow 16 bits.
+    @R0
+    D=M
+    @i
+    M=D-1
+(OUTER)
+    @i
+    D=M
+    @END
+    D;JLE
+    @j
+    M=0
+(INNER)
+    @j
+    D=M
+    @i
+    D=D-M
+    @NEXTI
+    D;JGE
+    @100
+    D=A
+    @j
+    D=D+M
+    @p
+    M=D
+    A=D
+    D=M
+    @x
+    M=D
+    @p
+    A=M+1
+    D=M
+    @y
+    M=D
+    @x
+    D=M-D
+    @NOSWAP
+    D;JLE
+    @y
+    D=M
+    @p
+    A=M
+    M=D
+    @x
+    D=M
+    @p
+    A=M+1
+    M=D
+(NOSWAP)
+    @j
+    M=M+1
+    @INNER
+    0;JMP
+(NEXTI)
+    @i
+    M=M-1
+    @OUTER
+    0;JMP
+(END)
+    @END
+    0;JMP

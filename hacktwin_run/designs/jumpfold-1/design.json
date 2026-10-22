@@ -1,0 +1,30 @@
+{
+  "design_id": "jumpfold-1",
+  "display_name": "Jump folding, single-entry table",
+  "kind": "internal_variant",
+  "parent_design_id": "jumpfold-8",
+  "summary": "Same jump-folding mechanism with one table entry (a Register). Loops whose back-edges alternate (nested loops) evict each other. Used to measure how table capacity affects the benefit.",
+  "characteristics": {
+    "execution_model": "single-cycle with jump folding (CPI <= 1)",
+    "isa": "Hack (standard)",
+    "cycle_compatible_with_spec": "only until the first folded jump",
+    "changed_units": [
+      "CPU PC control",
+      "fold table (1 entry)",
+      "history registers"
+    ],
+    "expected_cycle_effect": "<= jumpfold-8 savings"
+  },
+  "changes": [
+    "CPU.hdl: the RAM8 table is replaced by a single Register; no index multiplexer"
+  ],
+  "limitations": [
+    "Same assumptions as jumpfold-8."
+  ],
+  "provenance": {
+    "origin": "HackTwin-authored variant (2026-10-21)",
+    "method": "hand-written HDL",
+    "derived_from": "jumpfold-8"
+  },
+  "schema_version": 1
+}

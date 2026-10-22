@@ -1,0 +1,29 @@
+// HackTwin jump-folding support: out = 1 iff entry is valid (bit 15) and
+// entry[0..14] == pc[0..14].
+
+CHIP TagMatch {
+    IN entry[16], pc[16];
+    OUT out;
+
+    PARTS:
+    Xor(a=entry[0], b=pc[0], out=d0);
+    Xor(a=entry[1], b=pc[1], out=d1);
+    Xor(a=entry[2], b=pc[2], out=d2);
+    Xor(a=entry[3], b=pc[3], out=d3);
+    Xor(a=entry[4], b=pc[4], out=d4);
+    Xor(a=entry[5], b=pc[5], out=d5);
+    Xor(a=entry[6], b=pc[6], out=d6);
+    Xor(a=entry[7], b=pc[7], out=d7);
+    Xor(a=entry[8], b=pc[8], out=d8);
+    Xor(a=entry[9], b=pc[9], out=d9);
+    Xor(a=entry[10], b=pc[10], out=d10);
+    Xor(a=entry[11], b=pc[11], out=d11);
+    Xor(a=entry[12], b=pc[12], out=d12);
+    Xor(a=entry[13], b=pc[13], out=d13);
+    Xor(a=entry[14], b=pc[14], out=d14);
+    Not(in=entry[15], out=invalid);
+    Or8Way(in[0]=d0, in[1]=d1, in[2]=d2, in[3]=d3, in[4]=d4, in[5]=d5, in[6]=d6, in[7]=d7, out=lowdiff);
+    Or8Way(in[0]=d8, in[1]=d9, in[2]=d10, in[3]=d11, in[4]=d12, in[5]=d13, in[6]=d14, in[7]=invalid, out=highdiff);
+    Or(a=lowdiff, b=highdiff, out=diff);
+    Not(in=diff, out=out);
+}

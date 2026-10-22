@@ -1,0 +1,886 @@
+{
+  "model_version": "hacktwin-cycle-predictor-2",
+  "created_at": 1792582496.731344,
+  "target": "cycles_to_halt measured by the nand2tetris Hardware Simulator through the TwinComputer harness",
+  "dataset": {
+    "rows": 704,
+    "designs": [
+      "1",
+      "2",
+      "3",
+      "alu-xor-negate",
+      "branch-table",
+      "jumpfold-1",
+      "jumpfold-8",
+      "multicycle-2phase"
+    ],
+    "programs": 28,
+    "cases": 88,
+    "suites": [
+      "github-workloads-v1",
+      "hacktwin-core-v1"
+    ],
+    "excluded": {
+      "imported GitHub design (excluded by default; most share the baseline's timing)": 215
+    },
+    "dataset_sha256": "8b9fe82dfaca84b95e92d0c28f3f038720c9dd45f02c37fc88e6ff5fd80bd715",
+    "unit": "one row per (design, case); repeats collapsed",
+    "designs_with_identical_timing": [
+      [
+        "1",
+        "2",
+        "3",
+        "alu-xor-negate",
+        "branch-table"
+      ]
+    ]
+  },
+  "features": {
+    "static": [
+      "instruction_count",
+      "a_instruction_count",
+      "c_instruction_count",
+      "a_instruction_ratio",
+      "c_instruction_ratio",
+      "memory_reference_count",
+      "static_jump_count",
+      "conditional_jump_count",
+      "unconditional_jump_count",
+      "backward_jump_count",
+      "unique_backward_targets",
+      "backward_span_mean",
+      "backward_span_max",
+      "unique_a_constants",
+      "ram0_initial",
+      "ram1_initial"
+    ],
+    "dynamic": [
+      "dyn_instructions",
+      "dyn_a_instructions",
+      "dyn_c_instructions",
+      "dyn_memory_reads",
+      "dyn_memory_writes",
+      "dyn_conditional_branches",
+      "dyn_conditional_taken",
+      "dyn_unconditional_jumps",
+      "dyn_foldable_jumps"
+    ],
+    "definitions": {
+      "instruction_count": "Words in the program ROM image.",
+      "a_instruction_count": "Static A-instructions (@value).",
+      "c_instruction_count": "Static C-instructions.",
+      "a_instruction_ratio": "a_instruction_count / instruction_count.",
+      "c_instruction_ratio": "c_instruction_count / instruction_count.",
+      "memory_reference_count": "Static C-instructions that read or write M.",
+      "static_jump_count": "Static C-instructions with any jump bits.",
+      "conditional_jump_count": "Static conditional jumps.",
+      "unconditional_jump_count": "Static unconditional jumps (jump bits 111).",
+      "backward_jump_count": "Static jumps whose preceding @target is at or before the jump.",
+      "unique_backward_targets": "Distinct backward jump targets.",
+      "backward_span_mean": "Mean distance of backward jumps (words).",
+      "backward_span_max": "Largest backward jump distance (words).",
+      "unique_a_constants": "Distinct @constants in the program.",
+      "ram0_initial": "Initial RAM[0] input.",
+      "ram1_initial": "Initial RAM[1] input.",
+      "dyn_instructions": "Instructions retired by the ISA reference emulator before the halt address.",
+      "dyn_a_instructions": "Executed A-instructions (reference emulator).",
+      "dyn_c_instructions": "Executed C-instructions (reference emulator).",
+      "dyn_memory_reads": "Executed instructions with an M operand.",
+      "dyn_memory_writes": "Executed instructions writing M.",
+      "dyn_conditional_branches": "Executed conditional jumps.",
+      "dyn_conditional_taken": "Executed conditional jumps that were taken.",
+      "dyn_unconditional_jumps": "Executed unconditional jumps.",
+      "dyn_foldable_jumps": "Executed canonical 0;JMP immediately preceded by an A-instruction."
+    }
+  },
+  "predictors": {
+    "median_baseline": "Median cycles of the training programs for this design. The minimum any model must beat.",
+    "isa_cpi1": "Instructions retired by the ISA reference emulator, assuming one cycle per instruction. Nothing is fitted.",
+    "calibrated_isa": "Per-design least-squares fit: cycles = a x instructions + b x foldable jumps. Needs measured runs of that design.",
+    "ridge_static": "Ridge regression on cycles using only static program features and inputs (predictions clamped at 0).",
+    "extratrees_static": "ExtraTrees regressor on log(cycles) using only static program features and inputs.",
+    "extratrees_all": "ExtraTrees regressor on log(cycles) using static and reference-emulator features."
+  },
+  "evaluation": {
+    "protocol": "Per design: GroupKFold (up to 5 folds) grouped by program SHA-256 (leave-programs-out). No input profile of a held-out program is seen in training. Metrics are over out-of-fold predictions.",
+    "per_design": {
+      "1": {
+        "rows": 88,
+        "programs": 28,
+        "folds": 5,
+        "models": {
+          "median_baseline": {
+            "n": 88,
+            "mae": 438.489,
+            "rmse": 683.658,
+            "median_ae": 289.5,
+            "mape_pct": 810.769,
+            "r2": -0.2178,
+            "max_ae": 3772.0,
+            "p90_ae": 1249.0
+          },
+          "isa_cpi1": {
+            "n": 88,
+            "mae": 0.0,
+            "rmse": 0.0,
+            "median_ae": 0.0,
+            "mape_pct": 0.0,
+            "r2": 1.0,
+            "max_ae": 0.0,
+            "p90_ae": 0.0
+          },
+          "calibrated_isa": {
+            "n": 88,
+            "mae": 0.0,
+            "rmse": 0.0,
+            "median_ae": 0.0,
+            "mape_pct": 0.0,
+            "r2": 1.0,
+            "max_ae": 0.0,
+            "p90_ae": 0.0
+          },
+          "ridge_static": {
+            "n": 88,
+            "mae": 1772.273,
+            "rmse": 12385.049,
+            "median_ae": 296.669,
+            "mape_pct": 14071.294,
+            "r2": -398.6546,
+            "max_ae": 116007.766,
+            "p90_ae": 960.642
+          },
+          "extratrees_static": {
+            "n": 88,
+            "mae": 362.099,
+            "rmse": 585.982,
+            "median_ae": 155.979,
+            "mape_pct": 492.606,
+            "r2": 0.1053,
+            "max_ae": 3108.834,
+            "p90_ae": 882.162
+          },
+          "extratrees_all": {
+            "n": 88,
+            "mae": 47.805,
+            "rmse": 264.925,
+            "median_ae": 4.297,
+            "mape_pct": 8.892,
+            "r2": 0.8171,
+            "max_ae": 2446.101,
+            "p90_ae": 75.409
+          }
+        },
+        "best_model_by_mae": "isa_cpi1",
+        "beats_median_baseline": {
+          "median_baseline": false,
+          "isa_cpi1": true,
+          "calibrated_isa": true,
+          "ridge_static": false,
+          "extratrees_static": true,
+          "extratrees_all": true
+        }
+      },
+      "2": {
+        "rows": 88,
+        "programs": 28,
+        "folds": 5,
+        "models": {
+          "median_baseline": {
+            "n": 88,
+            "mae": 438.489,
+            "rmse": 683.658,
+            "median_ae": 289.5,
+            "mape_pct": 810.769,
+            "r2": -0.2178,
+            "max_ae": 3772.0,
+            "p90_ae": 1249.0
+          },
+          "isa_cpi1": {
+            "n": 88,
+            "mae": 0.0,
+            "rmse": 0.0,
+            "median_ae": 0.0,
+            "mape_pct": 0.0,
+            "r2": 1.0,
+            "max_ae": 0.0,
+            "p90_ae": 0.0
+          },
+          "calibrated_isa": {
+            "n": 88,
+            "mae": 0.0,
+            "rmse": 0.0,
+            "median_ae": 0.0,
+            "mape_pct": 0.0,
+            "r2": 1.0,
+            "max_ae": 0.0,
+            "p90_ae": 0.0
+          },
+          "ridge_static": {
+            "n": 88,
+            "mae": 1772.273,
+            "rmse": 12385.049,
+            "median_ae": 296.669,
+            "mape_pct": 14071.294,
+            "r2": -398.6546,
+            "max_ae": 116007.766,
+            "p90_ae": 960.642
+          },
+          "extratrees_static": {
+            "n": 88,
+            "mae": 362.099,
+            "rmse": 585.982,
+            "median_ae": 155.979,
+            "mape_pct": 492.606,
+            "r2": 0.1053,
+            "max_ae": 3108.834,
+            "p90_ae": 882.162
+          },
+          "extratrees_all": {
+            "n": 88,
+            "mae": 47.805,
+            "rmse": 264.925,
+            "median_ae": 4.297,
+            "mape_pct": 8.892,
+            "r2": 0.8171,
+            "max_ae": 2446.101,
+            "p90_ae": 75.409
+          }
+        },
+        "best_model_by_mae": "isa_cpi1",
+        "beats_median_baseline": {
+          "median_baseline": false,
+          "isa_cpi1": true,
+          "calibrated_isa": true,
+          "ridge_static": false,
+          "extratrees_static": true,
+          "extratrees_all": true
+        }
+      },
+      "3": {
+        "rows": 88,
+        "programs": 28,
+        "folds": 5,
+        "models": {
+          "median_baseline": {
+            "n": 88,
+            "mae": 438.489,
+            "rmse": 683.658,
+            "median_ae": 289.5,
+            "mape_pct": 810.769,
+            "r2": -0.2178,
+            "max_ae": 3772.0,
+            "p90_ae": 1249.0
+          },
+          "isa_cpi1": {
+            "n": 88,
+            "mae": 0.0,
+            "rmse": 0.0,
+            "median_ae": 0.0,
+            "mape_pct": 0.0,
+            "r2": 1.0,
+            "max_ae": 0.0,
+            "p90_ae": 0.0
+          },
+          "calibrated_isa": {
+            "n": 88,
+            "mae": 0.0,
+            "rmse": 0.0,
+            "median_ae": 0.0,
+            "mape_pct": 0.0,
+            "r2": 1.0,
+            "max_ae": 0.0,
+            "p90_ae": 0.0
+          },
+          "ridge_static": {
+            "n": 88,
+            "mae": 1772.273,
+            "rmse": 12385.049,
+            "median_ae": 296.669,
+            "mape_pct": 14071.294,
+            "r2": -398.6546,
+            "max_ae": 116007.766,
+            "p90_ae": 960.642
+          },
+          "extratrees_static": {
+            "n": 88,
+            "mae": 362.099,
+            "rmse": 585.982,
+            "median_ae": 155.979,
+            "mape_pct": 492.606,
+            "r2": 0.1053,
+            "max_ae": 3108.834,
+            "p90_ae": 882.162
+          },
+          "extratrees_all": {
+            "n": 88,
+            "mae": 47.805,
+            "rmse": 264.925,
+            "median_ae": 4.297,
+            "mape_pct": 8.892,
+            "r2": 0.8171,
+            "max_ae": 2446.101,
+            "p90_ae": 75.409
+          }
+        },
+        "best_model_by_mae": "isa_cpi1",
+        "beats_median_baseline": {
+          "median_baseline": false,
+          "isa_cpi1": true,
+          "calibrated_isa": true,
+          "ridge_static": false,
+          "extratrees_static": true,
+          "extratrees_all": true
+        }
+      },
+      "alu-xor-negate": {
+        "rows": 88,
+        "programs": 28,
+        "folds": 5,
+        "models": {
+          "median_baseline": {
+            "n": 88,
+            "mae": 438.489,
+            "rmse": 683.658,
+            "median_ae": 289.5,
+            "mape_pct": 810.769,
+            "r2": -0.2178,
+            "max_ae": 3772.0,
+            "p90_ae": 1249.0
+          },
+          "isa_cpi1": {
+            "n": 88,
+            "mae": 0.0,
+            "rmse": 0.0,
+            "median_ae": 0.0,
+            "mape_pct": 0.0,
+            "r2": 1.0,
+            "max_ae": 0.0,
+            "p90_ae": 0.0
+          },
+          "calibrated_isa": {
+            "n": 88,
+            "mae": 0.0,
+            "rmse": 0.0,
+            "median_ae": 0.0,
+            "mape_pct": 0.0,
+            "r2": 1.0,
+            "max_ae": 0.0,
+            "p90_ae": 0.0
+          },
+          "ridge_static": {
+            "n": 88,
+            "mae": 1772.273,
+            "rmse": 12385.049,
+            "median_ae": 296.669,
+            "mape_pct": 14071.294,
+            "r2": -398.6546,
+            "max_ae": 116007.766,
+            "p90_ae": 960.642
+          },
+          "extratrees_static": {
+            "n": 88,
+            "mae": 362.099,
+            "rmse": 585.982,
+            "median_ae": 155.979,
+            "mape_pct": 492.606,
+            "r2": 0.1053,
+            "max_ae": 3108.834,
+            "p90_ae": 882.162
+          },
+          "extratrees_all": {
+            "n": 88,
+            "mae": 47.805,
+            "rmse": 264.925,
+            "median_ae": 4.297,
+            "mape_pct": 8.892,
+            "r2": 0.8171,
+            "max_ae": 2446.101,
+            "p90_ae": 75.409
+          }
+        },
+        "best_model_by_mae": "isa_cpi1",
+        "beats_median_baseline": {
+          "median_baseline": false,
+          "isa_cpi1": true,
+          "calibrated_isa": true,
+          "ridge_static": false,
+          "extratrees_static": true,
+          "extratrees_all": true
+        }
+      },
+      "branch-table": {
+        "rows": 88,
+        "programs": 28,
+        "folds": 5,
+        "models": {
+          "median_baseline": {
+            "n": 88,
+            "mae": 438.489,
+            "rmse": 683.658,
+            "median_ae": 289.5,
+            "mape_pct": 810.769,
+            "r2": -0.2178,
+            "max_ae": 3772.0,
+            "p90_ae": 1249.0
+          },
+          "isa_cpi1": {
+            "n": 88,
+            "mae": 0.0,
+            "rmse": 0.0,
+            "median_ae": 0.0,
+            "mape_pct": 0.0,
+            "r2": 1.0,
+            "max_ae": 0.0,
+            "p90_ae": 0.0
+          },
+          "calibrated_isa": {
+            "n": 88,
+            "mae": 0.0,
+            "rmse": 0.0,
+            "median_ae": 0.0,
+            "mape_pct": 0.0,
+            "r2": 1.0,
+            "max_ae": 0.0,
+            "p90_ae": 0.0
+          },
+          "ridge_static": {
+            "n": 88,
+            "mae": 1772.273,
+            "rmse": 12385.049,
+            "median_ae": 296.669,
+            "mape_pct": 14071.294,
+            "r2": -398.6546,
+            "max_ae": 116007.766,
+            "p90_ae": 960.642
+          },
+          "extratrees_static": {
+            "n": 88,
+            "mae": 362.099,
+            "rmse": 585.982,
+            "median_ae": 155.979,
+            "mape_pct": 492.606,
+            "r2": 0.1053,
+            "max_ae": 3108.834,
+            "p90_ae": 882.162
+          },
+          "extratrees_all": {
+            "n": 88,
+            "mae": 47.805,
+            "rmse": 264.925,
+            "median_ae": 4.297,
+            "mape_pct": 8.892,
+            "r2": 0.8171,
+            "max_ae": 2446.101,
+            "p90_ae": 75.409
+          }
+        },
+        "best_model_by_mae": "isa_cpi1",
+        "beats_median_baseline": {
+          "median_baseline": false,
+          "isa_cpi1": true,
+          "calibrated_isa": true,
+          "ridge_static": false,
+          "extratrees_static": true,
+          "extratrees_all": true
+        }
+      },
+      "jumpfold-1": {
+        "rows": 88,
+        "programs": 28,
+        "folds": 5,
+        "models": {
+          "median_baseline": {
+            "n": 88,
+            "mae": 426.182,
+            "rmse": 654.527,
+            "median_ae": 283.25,
+            "mape_pct": 784.275,
+            "r2": -0.2352,
+            "max_ae": 3449.0,
+            "p90_ae": 1259.5
+          },
+          "isa_cpi1": {
+            "n": 88,
+            "mae": 14.614,
+            "rmse": 44.136,
+            "median_ae": 1.0,
+            "mape_pct": 2.429,
+            "r2": 0.9944,
+            "max_ae": 332.0,
+            "p90_ae": 42.0
+          },
+          "calibrated_isa": {
+            "n": 88,
+            "mae": 3.024,
+            "rmse": 5.955,
+            "median_ae": 0.797,
+            "mape_pct": 1.427,
+            "r2": 0.9999,
+            "max_ae": 20.152,
+            "p90_ae": 8.426
+          },
+          "ridge_static": {
+            "n": 88,
+            "mae": 1661.882,
+            "rmse": 11512.566,
+            "median_ae": 277.439,
+            "mape_pct": 13099.044,
+            "r2": -381.143,
+            "max_ae": 107827.373,
+            "p90_ae": 910.715
+          },
+          "extratrees_static": {
+            "n": 88,
+            "mae": 347.175,
+            "rmse": 557.789,
+            "median_ae": 153.219,
+            "mape_pct": 461.998,
+            "r2": 0.1029,
+            "max_ae": 2849.749,
+            "p90_ae": 879.144
+          },
+          "extratrees_all": {
+            "n": 88,
+            "mae": 45.619,
+            "rmse": 237.034,
+            "median_ae": 5.719,
+            "mape_pct": 9.361,
+            "r2": 0.838,
+            "max_ae": 2172.65,
+            "p90_ae": 72.447
+          }
+        },
+        "best_model_by_mae": "calibrated_isa",
+        "beats_median_baseline": {
+          "median_baseline": false,
+          "isa_cpi1": true,
+          "calibrated_isa": true,
+          "ridge_static": false,
+          "extratrees_static": true,
+          "extratrees_all": true
+        }
+      },
+      "jumpfold-8": {
+        "rows": 88,
+        "programs": 28,
+        "folds": 5,
+        "models": {
+          "median_baseline": {
+            "n": 88,
+            "mae": 424.557,
+            "rmse": 652.332,
+            "median_ae": 283.25,
+            "mape_pct": 784.227,
+            "r2": -0.2339,
+            "max_ae": 3449.0,
+            "p90_ae": 1251.5
+          },
+          "isa_cpi1": {
+            "n": 88,
+            "mae": 16.239,
+            "rmse": 44.609,
+            "median_ae": 2.0,
+            "mape_pct": 2.638,
+            "r2": 0.9942,
+            "max_ae": 332.0,
+            "p90_ae": 42.0
+          },
+          "calibrated_isa": {
+            "n": 88,
+            "mae": 1.753,
+            "rmse": 3.245,
+            "median_ae": 0.853,
+            "mape_pct": 1.173,
+            "r2": 1.0,
+            "max_ae": 12.524,
+            "p90_ae": 6.186
+          },
+          "ridge_static": {
+            "n": 88,
+            "mae": 1659.017,
+            "rmse": 11508.398,
+            "median_ae": 275.322,
+            "mape_pct": 13091.268,
+            "r2": -383.0291,
+            "max_ae": 107789.481,
+            "p90_ae": 910.112
+          },
+          "extratrees_static": {
+            "n": 88,
+            "mae": 343.216,
+            "rmse": 553.33,
+            "median_ae": 159.105,
+            "mape_pct": 460.923,
+            "r2": 0.1122,
+            "max_ae": 2853.341,
+            "p90_ae": 871.145
+          },
+          "extratrees_all": {
+            "n": 88,
+            "mae": 46.296,
+            "rmse": 241.785,
+            "median_ae": 4.998,
+            "mape_pct": 9.342,
+            "r2": 0.8305,
+            "max_ae": 2218.91,
+            "p90_ae": 72.479
+          }
+        },
+        "best_model_by_mae": "calibrated_isa",
+        "beats_median_baseline": {
+          "median_baseline": false,
+          "isa_cpi1": true,
+          "calibrated_isa": true,
+          "ridge_static": false,
+          "extratrees_static": true,
+          "extratrees_all": true
+        }
+      },
+      "multicycle-2phase": {
+        "rows": 88,
+        "programs": 28,
+        "folds": 5,
+        "models": {
+          "median_baseline": {
+            "n": 88,
+            "mae": 876.977,
+            "rmse": 1367.315,
+            "median_ae": 579.0,
+            "mape_pct": 810.769,
+            "r2": -0.2178,
+            "max_ae": 7544.0,
+            "p90_ae": 2498.0
+          },
+          "isa_cpi1": {
+            "n": 88,
+            "mae": 449.818,
+            "rmse": 765.599,
+            "median_ae": 216.5,
+            "mape_pct": 50.0,
+            "r2": 0.6182,
+            "max_ae": 4008.0,
+            "p90_ae": 1410.0
+          },
+          "calibrated_isa": {
+            "n": 88,
+            "mae": 0.0,
+            "rmse": 0.0,
+            "median_ae": 0.0,
+            "mape_pct": 0.0,
+            "r2": 1.0,
+            "max_ae": 0.0,
+            "p90_ae": 0.0
+          },
+          "ridge_static": {
+            "n": 88,
+            "mae": 3544.546,
+            "rmse": 24770.098,
+            "median_ae": 593.337,
+            "mape_pct": 14071.294,
+            "r2": -398.6546,
+            "max_ae": 232015.532,
+            "p90_ae": 1921.283
+          },
+          "extratrees_static": {
+            "n": 88,
+            "mae": 726.837,
+            "rmse": 1175.512,
+            "median_ae": 341.466,
+            "mape_pct": 487.987,
+            "r2": 0.0999,
+            "max_ae": 6221.225,
+            "p90_ae": 1786.248
+          },
+          "extratrees_all": {
+            "n": 88,
+            "mae": 98.522,
+            "rmse": 528.567,
+            "median_ae": 9.874,
+            "mape_pct": 8.174,
+            "r2": 0.818,
+            "max_ae": 4868.349,
+            "p90_ae": 149.685
+          }
+        },
+        "best_model_by_mae": "calibrated_isa",
+        "beats_median_baseline": {
+          "median_baseline": false,
+          "isa_cpi1": true,
+          "calibrated_isa": true,
+          "ridge_static": false,
+          "extratrees_static": true,
+          "extratrees_all": true
+        }
+      }
+    },
+    "skipped_designs": {},
+    "macro_average": {
+      "median_baseline": {
+        "mae": 490.0201,
+        "rmse": 761.558,
+        "median_ae": 324.125,
+        "mape_pct": 804.1395,
+        "p90_ae": 1406.75
+      },
+      "isa_cpi1": {
+        "mae": 60.0839,
+        "rmse": 106.793,
+        "median_ae": 27.4375,
+        "mape_pct": 6.8834,
+        "p90_ae": 186.75
+      },
+      "calibrated_isa": {
+        "mae": 0.5971,
+        "rmse": 1.15,
+        "median_ae": 0.2062,
+        "mape_pct": 0.325,
+        "p90_ae": 1.8265
+      },
+      "ridge_static": {
+        "mae": 1965.8512,
+        "rmse": 13714.5384,
+        "median_ae": 328.6804,
+        "mape_pct": 13827.2595,
+        "p90_ae": 1068.165
+      },
+      "extratrees_static": {
+        "mae": 403.4654,
+        "rmse": 652.0676,
+        "median_ae": 179.2106,
+        "mape_pct": 484.2423,
+        "p90_ae": 993.4184
+      },
+      "extratrees_all": {
+        "mae": 53.6827,
+        "rmse": 291.5014,
+        "median_ae": 5.2595,
+        "mape_pct": 8.9171,
+        "p90_ae": 83.957
+      }
+    },
+    "leave_one_design_out_calibrated_isa": {
+      "1": {
+        "n": 88,
+        "mae": 59.711,
+        "rmse": 99.675,
+        "median_ae": 29.864,
+        "mape_pct": 13.422,
+        "r2": 0.9741,
+        "max_ae": 478.26,
+        "p90_ae": 200.724
+      },
+      "2": {
+        "n": 88,
+        "mae": 59.711,
+        "rmse": 99.675,
+        "median_ae": 29.864,
+        "mape_pct": 13.422,
+        "r2": 0.9741,
+        "max_ae": 478.26,
+        "p90_ae": 200.724
+      },
+      "3": {
+        "n": 88,
+        "mae": 59.711,
+        "rmse": 99.675,
+        "median_ae": 29.864,
+        "mape_pct": 13.422,
+        "r2": 0.9741,
+        "max_ae": 478.26,
+        "p90_ae": 200.724
+      },
+      "alu-xor-negate": {
+        "n": 88,
+        "mae": 59.711,
+        "rmse": 99.675,
+        "median_ae": 29.864,
+        "mape_pct": 13.422,
+        "r2": 0.9741,
+        "max_ae": 478.26,
+        "p90_ae": 200.724
+      },
+      "branch-table": {
+        "n": 88,
+        "mae": 59.711,
+        "rmse": 99.675,
+        "median_ae": 29.864,
+        "mape_pct": 13.422,
+        "r2": 0.9741,
+        "max_ae": 478.26,
+        "p90_ae": 200.724
+      },
+      "jumpfold-1": {
+        "n": 88,
+        "mae": 76.484,
+        "rmse": 140.264,
+        "median_ae": 37.549,
+        "mape_pct": 16.58,
+        "r2": 0.9433,
+        "max_ae": 857.268,
+        "p90_ae": 205.282
+      },
+      "jumpfold-8": {
+        "n": 88,
+        "mae": 78.339,
+        "rmse": 142.376,
+        "median_ae": 37.657,
+        "mape_pct": 16.873,
+        "r2": 0.9412,
+        "max_ae": 857.564,
+        "p90_ae": 220.299
+      },
+      "multicycle-2phase": {
+        "n": 88,
+        "mae": 454.367,
+        "rmse": 775.631,
+        "median_ae": 217.278,
+        "mape_pct": 50.432,
+        "r2": 0.6081,
+        "max_ae": 4102.311,
+        "p90_ae": 1410.169
+      }
+    },
+    "calibration": {
+      "1": {
+        "cycles_per_instruction": 0.9999999999999997,
+        "cycles_per_foldable_jump": 1.432571210429472e-15
+      },
+      "2": {
+        "cycles_per_instruction": 0.9999999999999997,
+        "cycles_per_foldable_jump": 1.432571210429472e-15
+      },
+      "3": {
+        "cycles_per_instruction": 0.9999999999999997,
+        "cycles_per_foldable_jump": 1.432571210429472e-15
+      },
+      "alu-xor-negate": {
+        "cycles_per_instruction": 0.9999999999999997,
+        "cycles_per_foldable_jump": 1.432571210429472e-15
+      },
+      "branch-table": {
+        "cycles_per_instruction": 0.9999999999999997,
+        "cycles_per_foldable_jump": 1.432571210429472e-15
+      },
+      "jumpfold-1": {
+        "cycles_per_instruction": 1.0139901326731073,
+        "cycles_per_foldable_jump": -1.1565289404769348
+      },
+      "jumpfold-8": {
+        "cycles_per_instruction": 1.0074113047573785,
+        "cycles_per_foldable_jump": -1.0835777024983746
+      },
+      "multicycle-2phase": {
+        "cycles_per_instruction": 1.9999999999999993,
+        "cycles_per_foldable_jump": 2.865142420858944e-15
+      }
+    }
+  },
+  "limitations": [
+    "The dynamic features come from the ISA reference emulator, which executes the program. They are cheaper than HDL simulation but they are not a static prediction.",
+    "calibrated_isa needs measured runs of the design it predicts; the leave-one-design-out result shows it does not transfer to a design with a different CPI.",
+    "Several designs have identical timing (listed above); their per-design results are not independent evidence.",
+    "Programs come from 10 HackTwin/nand2tetris workloads and the GitHub workload set; predictions for very different programs (e.g. keyboard-driven or non-halting code) are outside the data.",
+    "The uncertainty band is the 90th-percentile absolute out-of-fold error for that design and model; it is an empirical spread, not a guaranteed interval."
+  ],
+  "model_file": "data/models/cycle_predictor.joblib"
+}

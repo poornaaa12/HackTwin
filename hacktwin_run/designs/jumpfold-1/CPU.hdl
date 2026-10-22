@@ -1,0 +1,88 @@
+// HackTwin design variant "jumpfold-1".
+// Derived from designs/1/CPU.hdl. Adds dynamic *jump folding* with a
+// single-entry fold table.
+//
+// Hack loops end with the two-instruction idiom   @LOOP   (A-instruction)
+//                                                 0;JMP   (unconditional jump)
+// The 0;JMP has no destination and no side effect other than PC <- A, and A
+// already holds the target loaded by the preceding @LOOP. When the CPU
+// executes a canonical 0;JMP (1110101010000111) immediately after an
+// A-instruction, it records the A-instruction's ROM address in the fold
+// table. The next time that A-instruction is fetched, the CPU loads A as
+// usual and also loads PC with the same constant, skipping the 0;JMP fetch.
+// Architectural state (A, D, RAM, write order) is identical to the baseline;
+// only the number of cycles changes.
+//
+// Assumptions and limitations:
+//   * Instruction memory is immutable while the program runs (true for the
+//     Hack ROM32K). A test that injects arbitrary instruction streams at a
+//     fixed PC could observe a stale fold.
+//   * The first traversal of each loop is not folded (the table learns it).
+//   * The added state and comparator lengthen the PC-update logic; delay
+//     and area are not measured by the Hardware Simulator.
+
+CHIP CPU {
+
+    IN  inM[16],         // M value input  (M = contents of RAM[A])
+        instruction[16], // Instruction for execution
+        reset;           // Restart the current program when 1
+
+    OUT outM[16],        // M value output
+        writeM,          // Write to M?
+        addressM[15],    // Address in data memory (of M)
+        pc[15];          // address of next instruction
+
+    PARTS:
+    /** Baseline datapath (unchanged) **/
+    Not(in=instruction[15], out=isA);
+    Not(in=isA, out=isC);
+    And(a=isC, b=instruction[5], out=destA);
+    Or(a=isA, b=destA, out=loadA);
+    Mux16(a=aluout, b=instruction, sel=isA, out=toA);
+    ARegister(in=toA, load=loadA, out=aout, out[0..14]=addressM);
+    Mux16(a=aout, b=inM, sel=instruction[12], out=yin);
+    ALU(x=dout, y=yin, zx=instruction[11], nx=instruction[10], zy=instruction[9],
+        ny=instruction[8], f=instruction[7], no=instruction[6],
+        out=aluout, out=outM, zr=zr, ng=ng);
+    And(a=isC, b=instruction[4], out=loadD);
+    DRegister(in=aluout, load=loadD, out=dout);
+    And(a=isC, b=instruction[3], out=writeM);
+
+    /** Baseline jump condition **/
+    Or(a=zr, b=ng, out=le);
+    Not(in=le, out=gt);
+    And(a=instruction[0], b=gt, out=jgt);
+    And(a=instruction[1], b=zr, out=jeq);
+    And(a=instruction[2], b=ng, out=jlt);
+    Or(a=jgt, b=jeq, out=jge);
+    Or(a=jge, b=jlt, out=cond);
+    And(a=isC, b=cond, out=jump);
+
+    /** History: previous PC, previous instruction class, previous reset **/
+    Register(in=pcfull, load=true, out=prevpc);
+    DFF(in=isA, out=prevA);
+    DFF(in=reset, out=prevreset);
+
+    /** Learn: canonical 0;JMP executed right after an A-instruction **/
+    IsUncondJump(instruction=instruction, out=isjmp);
+    Not(in=reset, out=notreset);
+    Not(in=prevreset, out=notprevreset);
+    And(a=isjmp, b=prevA, out=learn1);
+    And(a=learn1, b=notreset, out=learn2);
+    And(a=learn2, b=notprevreset, out=learn);
+    Or16(a=prevpc, b[15]=true, b[0..14]=false, out=newentry);
+
+    /** Single-entry fold table: bit 15 = valid, bits 14..0 = tag. **/
+    Register(in=newentry, load=learn, out=entry);
+
+    /** Lookup: an A-instruction at a recorded address folds the jump **/
+    TagMatch(entry=entry, pc=pcfull, out=hit);
+    And(a=hit, b=isA, out=fold1);
+    And(a=fold1, b=notreset, out=fold);
+
+    /** Program counter **/
+    Mux16(a=aout, b=instruction, sel=fold, out=pcin);
+    Or(a=jump, b=fold, out=pcload);
+    Not(in=pcload, out=advance);
+    PC(in=pcin, load=pcload, inc=advance, reset=reset, out=pcfull, out[0..14]=pc);
+}

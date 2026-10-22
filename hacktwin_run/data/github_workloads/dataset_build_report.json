@@ -1,0 +1,375 @@
+{
+  "dataset_file": "/Users/cow/Desktop/EOC-2 - Copy/hacktwin_run/data/github_workloads/training_data.jsonl",
+  "source_program_count": 50,
+  "programs_with_terminal_loop_candidates": 23,
+  "scenario_count_per_program": 5,
+  "repeat_count": 2,
+  "max_simulated_cycles": 4096,
+  "accepted_label_count": 103,
+  "accepted_program_groups": 21,
+  "excluded_programs": [
+    {
+      "program_id": "gh_084e6ca751f6",
+      "reason": "no recognized terminal self-loop"
+    },
+    {
+      "program_id": "gh_0eaa0d3e93c7",
+      "reason": "no recognized terminal self-loop"
+    },
+    {
+      "program_id": "gh_1c51582e1140",
+      "reason": "no recognized terminal self-loop"
+    },
+    {
+      "program_id": "gh_206502369ab6",
+      "reason": "no recognized terminal self-loop"
+    },
+    {
+      "program_id": "gh_25ee3a99b35f",
+      "reason": "no recognized terminal self-loop"
+    },
+    {
+      "program_id": "gh_2c412b30a163",
+      "reason": "no recognized terminal self-loop"
+    },
+    {
+      "program_id": "gh_54c8d56f3ea9",
+      "reason": "no recognized terminal self-loop"
+    },
+    {
+      "program_id": "gh_5c34d2a4d444",
+      "reason": "no recognized terminal self-loop"
+    },
+    {
+      "program_id": "gh_650c66a88122",
+      "reason": "no recognized terminal self-loop"
+    },
+    {
+      "program_id": "gh_76ac80f08dd0",
+      "reason": "no recognized terminal self-loop"
+    },
+    {
+      "program_id": "gh_8d2c47414f99",
+      "reason": "no recognized terminal self-loop"
+    },
+    {
+      "program_id": "gh_ac7a06b3603f",
+      "reason": "no recognized terminal self-loop"
+    },
+    {
+      "program_id": "gh_af02149ba60a",
+      "reason": "no recognized terminal self-loop"
+    },
+    {
+      "program_id": "gh_b22dcc77d445",
+      "reason": "no recognized terminal self-loop"
+    },
+    {
+      "program_id": "gh_bf435be24a65",
+      "reason": "no recognized terminal self-loop"
+    },
+    {
+      "program_id": "gh_c165441b50e4",
+      "reason": "no recognized terminal self-loop"
+    },
+    {
+      "program_id": "gh_c1fa62f8a3ae",
+      "reason": "no recognized terminal self-loop"
+    },
+    {
+      "program_id": "gh_c97d40bce165",
+      "reason": "no recognized terminal self-loop"
+    },
+    {
+      "program_id": "gh_d1bd5c7d5146",
+      "reason": "no recognized terminal self-loop"
+    },
+    {
+      "program_id": "gh_dd3657ad0265",
+      "reason": "no recognized terminal self-loop"
+    },
+    {
+      "program_id": "gh_de0cf5cad469",
+      "reason": "no recognized terminal self-loop"
+    },
+    {
+      "program_id": "gh_e4b984ca53d5",
+      "reason": "no recognized terminal self-loop"
+    },
+    {
+      "program_id": "gh_e94c56a422e3",
+      "reason": "no recognized terminal self-loop"
+    },
+    {
+      "program_id": "gh_ecb3e2df5db9",
+      "reason": "no recognized terminal self-loop"
+    },
+    {
+      "program_id": "gh_ee0da03c90e5",
+      "reason": "no recognized terminal self-loop"
+    },
+    {
+      "program_id": "gh_f0f369cba037",
+      "reason": "no recognized terminal self-loop"
+    },
+    {
+      "program_id": "gh_fcb98a61fa63",
+      "reason": "no recognized terminal self-loop"
+    }
+  ],
+  "rejected_measurements": [
+    {
+      "program_id": "gh_00896ed4c87b",
+      "scenario_id": "stack_pointer_256",
+      "reason": "terminal loop not reached in every repeat or cycle labels differ",
+      "measurements": [
+        {
+          "repeat": 0,
+          "returncode": 0,
+          "cycles_to_halt": null,
+          "trace_length": 4097,
+          "elapsed_s": 0.1780390739440918
+        },
+        {
+          "repeat": 1,
+          "returncode": 0,
+          "cycles_to_halt": null,
+          "trace_length": 4097,
+          "elapsed_s": 0.17800021171569824
+        }
+      ]
+    },
+    {
+      "program_id": "gh_6d840311cd55",
+      "scenario_id": "zero",
+      "reason": "terminal loop not reached in every repeat or cycle labels differ",
+      "measurements": [
+        {
+          "repeat": 0,
+          "returncode": 0,
+          "cycles_to_halt": null,
+          "trace_length": 4097,
+          "elapsed_s": 0.18106484413146973
+        },
+        {
+          "repeat": 1,
+          "returncode": 0,
+          "cycles_to_halt": null,
+          "trace_length": 4097,
+          "elapsed_s": 0.18195819854736328
+        }
+      ]
+    },
+    {
+      "program_id": "gh_6d840311cd55",
+      "scenario_id": "small_3_5",
+      "reason": "terminal loop not reached in every repeat or cycle labels differ",
+      "measurements": [
+        {
+          "repeat": 0,
+          "returncode": 0,
+          "cycles_to_halt": null,
+          "trace_length": 4097,
+          "elapsed_s": 0.1803140640258789
+        },
+        {
+          "repeat": 1,
+          "returncode": 0,
+          "cycles_to_halt": null,
+          "trace_length": 4097,
+          "elapsed_s": 0.1801769733428955
+        }
+      ]
+    },
+    {
+      "program_id": "gh_6d840311cd55",
+      "scenario_id": "small_5_3",
+      "reason": "terminal loop not reached in every repeat or cycle labels differ",
+      "measurements": [
+        {
+          "repeat": 0,
+          "returncode": 0,
+          "cycles_to_halt": null,
+          "trace_length": 4097,
+          "elapsed_s": 0.2310199737548828
+        },
+        {
+          "repeat": 1,
+          "returncode": 0,
+          "cycles_to_halt": null,
+          "trace_length": 4097,
+          "elapsed_s": 0.20243406295776367
+        }
+      ]
+    },
+    {
+      "program_id": "gh_6d840311cd55",
+      "scenario_id": "medium_100_50",
+      "reason": "terminal loop not reached in every repeat or cycle labels differ",
+      "measurements": [
+        {
+          "repeat": 0,
+          "returncode": 0,
+          "cycles_to_halt": null,
+          "trace_length": 4097,
+          "elapsed_s": 0.17465806007385254
+        },
+        {
+          "repeat": 1,
+          "returncode": 0,
+          "cycles_to_halt": null,
+          "trace_length": 4097,
+          "elapsed_s": 0.17629194259643555
+        }
+      ]
+    },
+    {
+      "program_id": "gh_6d840311cd55",
+      "scenario_id": "stack_pointer_256",
+      "reason": "terminal loop not reached in every repeat or cycle labels differ",
+      "measurements": [
+        {
+          "repeat": 0,
+          "returncode": 0,
+          "cycles_to_halt": null,
+          "trace_length": 4097,
+          "elapsed_s": 0.18094515800476074
+        },
+        {
+          "repeat": 1,
+          "returncode": 0,
+          "cycles_to_halt": null,
+          "trace_length": 4097,
+          "elapsed_s": 0.17888998985290527
+        }
+      ]
+    },
+    {
+      "program_id": "gh_716ea931e829",
+      "scenario_id": "zero",
+      "reason": "terminal loop not reached in every repeat or cycle labels differ",
+      "measurements": [
+        {
+          "repeat": 0,
+          "returncode": 0,
+          "cycles_to_halt": null,
+          "trace_length": 4097,
+          "elapsed_s": 0.1785118579864502
+        },
+        {
+          "repeat": 1,
+          "returncode": 0,
+          "cycles_to_halt": null,
+          "trace_length": 4097,
+          "elapsed_s": 0.1653730869293213
+        }
+      ]
+    },
+    {
+      "program_id": "gh_716ea931e829",
+      "scenario_id": "small_3_5",
+      "reason": "terminal loop not reached in every repeat or cycle labels differ",
+      "measurements": [
+        {
+          "repeat": 0,
+          "returncode": 0,
+          "cycles_to_halt": null,
+          "trace_length": 4097,
+          "elapsed_s": 0.1765291690826416
+        },
+        {
+          "repeat": 1,
+          "returncode": 0,
+          "cycles_to_halt": null,
+          "trace_length": 4097,
+          "elapsed_s": 0.17827081680297852
+        }
+      ]
+    },
+    {
+      "program_id": "gh_716ea931e829",
+      "scenario_id": "small_5_3",
+      "reason": "terminal loop not reached in every repeat or cycle labels differ",
+      "measurements": [
+        {
+          "repeat": 0,
+          "returncode": 0,
+          "cycles_to_halt": null,
+          "trace_length": 4097,
+          "elapsed_s": 0.17701005935668945
+        },
+        {
+          "repeat": 1,
+          "returncode": 0,
+          "cycles_to_halt": null,
+          "trace_length": 4097,
+          "elapsed_s": 0.17738986015319824
+        }
+      ]
+    },
+    {
+      "program_id": "gh_716ea931e829",
+      "scenario_id": "medium_100_50",
+      "reason": "terminal loop not reached in every repeat or cycle labels differ",
+      "measurements": [
+        {
+          "repeat": 0,
+          "returncode": 0,
+          "cycles_to_halt": null,
+          "trace_length": 4097,
+          "elapsed_s": 0.18075108528137207
+        },
+        {
+          "repeat": 1,
+          "returncode": 0,
+          "cycles_to_halt": null,
+          "trace_length": 4097,
+          "elapsed_s": 0.17677021026611328
+        }
+      ]
+    },
+    {
+      "program_id": "gh_716ea931e829",
+      "scenario_id": "stack_pointer_256",
+      "reason": "terminal loop not reached in every repeat or cycle labels differ",
+      "measurements": [
+        {
+          "repeat": 0,
+          "returncode": 0,
+          "cycles_to_halt": null,
+          "trace_length": 4097,
+          "elapsed_s": 0.17511606216430664
+        },
+        {
+          "repeat": 1,
+          "returncode": 0,
+          "cycles_to_halt": null,
+          "trace_length": 4097,
+          "elapsed_s": 0.18236804008483887
+        }
+      ]
+    },
+    {
+      "program_id": "gh_b5aefc46e180",
+      "scenario_id": "stack_pointer_256",
+      "reason": "terminal loop not reached in every repeat or cycle labels differ",
+      "measurements": [
+        {
+          "repeat": 0,
+          "returncode": 0,
+          "cycles_to_halt": null,
+          "trace_length": 4097,
+          "elapsed_s": 0.18091893196105957
+        },
+        {
+          "repeat": 1,
+          "returncode": 0,
+          "cycles_to_halt": null,
+          "trace_length": 4097,
+          "elapsed_s": 0.1846141815185547
+        }
+      ]
+    }
+  ],
+  "note": "Labels are cycles until the simulator reaches a repeated terminal self-loop PC pattern; fixed run caps and nonterminal programs are not used as completed labels."
+}
